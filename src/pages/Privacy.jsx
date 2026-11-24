@@ -33,9 +33,9 @@ export default function Privacy() {
 
           <LegalSection title="1. What a wish link contains">
             <p>
-              When you generate a wish, these details are packed into a compact JSON object and
-              encoded as Base64URL after the <code className="rounded bg-cream px-1 py-0.5 text-[0.85em]">#</code>{' '}
-              in the URL:
+              When you generate a wish, these details are written as readable parameters after the{' '}
+              <code className="rounded bg-cream px-1 py-0.5 text-[0.85em]">#</code> in the URL,
+              with normal URL escaping for spaces and non-Latin text:
             </p>
             <BulletList
               items={[
@@ -67,9 +67,9 @@ export default function Privacy() {
 
           <LegalSection title="3. Hosting and technical data">
             <p>
-              Wishify is hosted as a static site on Cloudflare Pages. Like any web host, Cloudflare
-              may process standard request information (such as IP address, user agent, and the
-              requested page) to deliver and secure the site. This is infrastructure-level
+              Wishify is hosted as a static site on Cloudflare Pages or Vercel. Like any web host,
+              the provider may process standard request information (such as IP address, user agent,
+              and the requested page) to deliver and secure the site. This is infrastructure-level
               processing and does not include the greeting stored in the URL fragment.
             </p>
             <p>

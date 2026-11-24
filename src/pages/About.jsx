@@ -35,7 +35,7 @@ const FAQS = [
   },
   {
     q: 'How does sharing work without a server?',
-    a: 'Your occasion, names, message, design and animation choice are packed into a compact JSON object, encoded as Base64URL, and placed after the # in the URL. Browsers never send the fragment to a server, so the greeting is decoded locally by whoever opens it.',
+    a: 'Your occasion, names, message, design and animation choice are written as readable parameters after the # in the URL, with normal escaping for spaces and non-Latin text. Browsers never send the fragment to a server, so the greeting is decoded locally by whoever opens it.',
   },
   {
     q: 'Can I edit or delete a wish after sending it?',

@@ -8,7 +8,9 @@ export const LIMITS = {
   heading: 60,
   relationship: 40,
   message: 500,
-  encoded: 6000,
+  // Readable links use percent-encoding for non-Latin text, so allow more
+  // characters than the old Base64 format while still rejecting huge payloads.
+  encoded: 12000,
 }
 
 const ANIMATIONS = ['full', 'subtle', 'none']
@@ -67,72 +69,35 @@ function base64UrlToBytes(token) {
 }
 
 /**
- * Compact payload keys keep the fragment small:
- * v=version, o=occasion, t=template, r=recipient, s=sender,
- * m=message, h=heading, rel=relationship, an=animation.
+ * Generates a readable fragment, for example:
+ * occasion=birthday&template=soft-pastel&to=Sheru&message=...
+ *
+ * URLSearchParams still escapes characters that would break a URL (spaces,
+ * Hindi/Devanagari text, emoji, &, #), but the data itself is now visible instead
+ * of being hidden inside Base64. Spaces appear as `+` and non-Latin text uses
+ * percent escapes — that is required for a valid, portable link.
  */
 export function encodeWish(wish) {
   const clean = sanitizeWish(wish)
-  const payload = {
-    v: 1,
-    o: clean.occasion || 'custom',
-    t: clean.template,
-    r: clamp(clean.recipient, LIMITS.recipient),
-    m: clamp(clean.message, LIMITS.message),
-  }
-  if (clean.sender) payload.s = clamp(clean.sender, LIMITS.sender)
-  if (clean.heading) payload.h = clamp(clean.heading, LIMITS.heading)
-  if (clean.relationship) payload.rel = clamp(clean.relationship, LIMITS.relationship)
-  if (clean.animation !== 'full') payload.an = clean.animation
-
-  const bytes = new TextEncoder().encode(JSON.stringify(payload))
-  return bytesToBase64Url(bytes)
+  const params = new URLSearchParams()
+  params.set('v', '1')
+  params.set('occasion', clean.occasion || 'custom')
+  params.set('template', clean.template)
+  params.set('to', clamp(clean.recipient, LIMITS.recipient))
+  params.set('message', clamp(clean.message, LIMITS.message))
+  if (clean.sender) params.set('from', clamp(clean.sender, LIMITS.sender))
+  if (clean.heading) params.set('heading', clamp(clean.heading, LIMITS.heading))
+  if (clean.relationship) params.set('relationship', clamp(clean.relationship, LIMITS.relationship))
+  if (clean.animation !== 'full') params.set('motion', clean.animation)
+  return params.toString()
 }
 
-/**
- * Decodes and validates a fragment token. Never throws, never evals.
- * @returns {{ ok: true, wish: object } | { ok: false, reason: string, message: string }}
- */
-export function decodeWish(token) {
-  if (typeof token !== 'string' || token.trim().length === 0) {
-    return { ok: false, reason: 'empty', message: 'No wish data was found in this link.' }
-  }
-
-  const cleanToken = token.trim()
-  if (cleanToken.length > LIMITS.encoded) {
-    return {
-      ok: false,
-      reason: 'too-long',
-      message: 'This wish link is unusually long, so it could not be opened safely.',
-    }
-  }
-
-  if (!/^[A-Za-z0-9_-]+$/.test(cleanToken)) {
-    return {
-      ok: false,
-      reason: 'malformed',
-      message: 'This wish link appears to be damaged or incomplete.',
-    }
-  }
-
-  let data
-  try {
-    const bytes = base64UrlToBytes(cleanToken)
-    const json = new TextDecoder('utf-8', { fatal: true }).decode(bytes)
-    data = JSON.parse(json)
-  } catch {
-    return {
-      ok: false,
-      reason: 'malformed',
-      message: 'This wish link appears to be damaged or incomplete.',
-    }
-  }
-
+function validateWishData(data) {
   if (!data || typeof data !== 'object' || Array.isArray(data)) {
     return { ok: false, reason: 'malformed', message: 'This wish link does not contain valid data.' }
   }
 
-  if (data.v !== undefined && data.v !== 1) {
+  if (data.v !== undefined && String(data.v) !== '1') {
     return {
       ok: false,
       reason: 'version',
@@ -165,18 +130,94 @@ export function decodeWish(token) {
   return { ok: true, wish }
 }
 
-/** Reads the token from a `#fragment` string (or a full URL). */
+/** Decodes the old Base64URL fragment format so existing links keep working. */
+function decodeLegacyToken(cleanToken) {
+  if (!/^[A-Za-z0-9_-]+$/.test(cleanToken)) {
+    return {
+      ok: false,
+      reason: 'malformed',
+      message: 'This wish link appears to be damaged or incomplete.',
+    }
+  }
+
+  let data
+  try {
+    const bytes = base64UrlToBytes(cleanToken)
+    const json = new TextDecoder('utf-8', { fatal: true }).decode(bytes)
+    data = JSON.parse(json)
+  } catch {
+    return {
+      ok: false,
+      reason: 'malformed',
+      message: 'This wish link appears to be damaged or incomplete.',
+    }
+  }
+
+  return validateWishData(data)
+}
+
+function decodeReadableFragment(cleanToken) {
+  let params
+  try {
+    params = new URLSearchParams(cleanToken)
+  } catch {
+    return {
+      ok: false,
+      reason: 'malformed',
+      message: 'This wish link appears to be damaged or incomplete.',
+    }
+  }
+
+  const value = (...keys) => {
+    for (const key of keys) {
+      if (params.has(key)) return params.get(key)
+    }
+    return undefined
+  }
+
+  return validateWishData({
+    v: value('v', 'version'),
+    o: value('o', 'occasion'),
+    t: value('t', 'template'),
+    r: value('r', 'to', 'recipient'),
+    s: value('s', 'from', 'sender'),
+    h: value('h', 'heading'),
+    rel: value('rel', 'relationship'),
+    m: value('m', 'message'),
+    an: value('an', 'motion', 'animation'),
+  })
+}
+
+/**
+ * Decodes and validates a fragment. Supports both the readable format and the
+ * old Base64URL format. Never throws, never evals.
+ * @returns {{ ok: true, wish: object } | { ok: false, reason: string, message: string }}
+ */
+export function decodeWish(token) {
+  if (typeof token !== 'string' || token.trim().length === 0) {
+    return { ok: false, reason: 'empty', message: 'No wish data was found in this link.' }
+  }
+
+  const cleanToken = token.trim()
+  if (cleanToken.length > LIMITS.encoded) {
+    return {
+      ok: false,
+      reason: 'too-long',
+      message: 'This wish link is unusually long, so it could not be opened safely.',
+    }
+  }
+
+  const readable = /(^|&)(v|version|o|occasion|to|recipient|message)=/.test(cleanToken)
+  return readable ? decodeReadableFragment(cleanToken) : decodeLegacyToken(cleanToken)
+}
+
+/** Reads the fragment from a `#fragment` string (or a full URL). */
 export function readWishHash(hash) {
   if (typeof hash !== 'string') return decodeWish('')
   let value = hash
   const hashIndex = value.indexOf('#')
   if (hashIndex !== -1) value = value.slice(hashIndex + 1)
-  try {
-    value = decodeURIComponent(value)
-  } catch {
-    /* keep raw value */
-  }
-  return decodeWish(value.split('&')[0])
+  return decodeWish(value)
 }
 
 export function getWishPath(wish) {

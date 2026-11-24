@@ -101,14 +101,14 @@ export default function CoverScreen({ wish, onOpen }) {
     >
       {occasion && (
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-          <span className="absolute inset-0 opacity-[0.22]">
+          <span className="absolute inset-0 opacity-[0.5]">
             {occasion.image ? (
-              <img src={occasion.image} alt="" className="h-full w-full object-cover" />
+              <img src={occasion.image} alt="" className="h-full w-full scale-105 object-cover blur-[1.5px]" />
             ) : (
               <OccasionArt occasion={occasion} className="h-full w-full" rounded={false} />
             )}
           </span>
-          <span className="absolute inset-0" style={{ background: cover.bg, opacity: 0.86 }} />
+          <span className="absolute inset-0" style={{ background: cover.bg, opacity: 0.74 }} />
           <span
             className="absolute inset-0"
             style={{

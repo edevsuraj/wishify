@@ -66,7 +66,7 @@ export default function FeatureBento() {
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="inline-flex items-center gap-1.5 rounded-full border border-cream/15 bg-cream/[0.06] px-3 py-1.5 text-[0.7rem] font-medium text-cream/70">
                     <span className="h-1.5 w-1.5 rounded-full bg-[#9AE6B4]" />
-                    /wish/#eyJ2IjoxLCJvIjoi…
+                    /wish/#v=1&occasion=…
                   </span>
                   <span className="rounded-full border border-cream/15 px-3 py-1.5 text-[0.65rem] uppercase tracking-[0.16em] text-cream/40">
                     never sent to a server

@@ -12,7 +12,7 @@ Wishify is a client-side React app for creating and sharing greeting cards. Pick
 - **Bilingual writing help** with English and Hindi heading/message suggestions.
 - **Premium but restrained motion**: page transitions, scroll reveals, envelope opening, text reveals, hover previews, and occasion-aware effects.
 - **Mobile-first recipient experience**, built for links opened from WhatsApp.
-- **Link-only storage**: greeting data is compressed and Base64URL-encoded in the URL fragment.
+- **Link-only storage**: greeting data is written as readable URL parameters in the fragment, with old Base64URL links still supported.
 - **Consent-gated ads** that stay disabled until AdSense environment variables are configured.
 - **Accessible defaults**: keyboard-friendly controls, visible focus states, large touch targets, and `prefers-reduced-motion` support.
 
@@ -63,6 +63,17 @@ The build output is written to `dist/`.
 
 `public/_headers` can be used for additional security/cache headers on Cloudflare Pages. The project deliberately avoids a server-side runtime, so the free Pages tier is sufficient.
 
+### Deploy to Vercel
+
+Vercel also works. The included `vercel.json` rewrites app routes such as `/wish/` to `index.html`, which fixes the `404 NOT_FOUND` error for shared links.
+
+- **Framework preset:** Vite
+- **Build command:** `npm run build`
+- **Output directory:** `dist`
+- **Install command:** `npm install`
+
+Then redeploy after adding `vercel.json`. Existing links using the old encoded format continue to open.
+
 ## Environment variables
 
 Copy `.env.example` to `.env` for local experiments. AdSense is completely inactive while these are blank.
@@ -81,11 +92,13 @@ The wish page never places an ad over the greeting itself.
 
 ## How sharing works
 
-The greeting is packed into the URL fragment, for example:
+The greeting is packed into the URL fragment in a readable form:
 
 ```text
-https://your-domain.example/wish/#eyJ2IjoxLCJvIjoiZGl3YWxpIiwidCI6ImdvbGRlbi1tZW1vcmllcyIs...
+https://your-domain.example/wish/#v=1&occasion=birthday&template=soft-pastel&to=Sheru&message=...
 ```
+
+Spaces appear as `+`, punctuation may be percent-escaped, and Hindi/non-Latin text uses UTF-8 percent escapes — this is required for a valid link that survives WhatsApp, QR codes, and browsers. The old Base64URL links are still decoded, so previously shared wishes keep working.
 
 - Only a small allowlist of occasions and template IDs is accepted.
 - Text is sanitized, length-limited, and rendered as React text — never as HTML.
@@ -132,7 +145,7 @@ src/
   lib/
     occasions.js     Occasion catalogue, groups, images, bilingual copy
     templates.js     Template metadata, matching, theme helpers
-    share.js         Base64URL encode/decode, limits, validation
+    share.js         Readable link encode/decode, legacy links, limits, validation
     sample.js        Sample names and wishes
   pages/             Route-level pages
   templates/         The 12 greeting layouts
