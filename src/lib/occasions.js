@@ -1550,6 +1550,18 @@ export function searchOccasions(query) {
   const term = query.trim().toLowerCase()
   if (!term) return OCCASIONS
   return OCCASIONS.filter((occasion) =>
-    `${occasion.label} ${occasion.tagline} ${occasion.blurb} ${occasion.group}`.toLowerCase().includes(term),
+    [
+      occasion.label,
+      occasion.tagline,
+      occasion.blurb,
+      occasion.group,
+      occasion.heading,
+      occasion.headings?.join(' '),
+      occasion.headingsHi?.join(' '),
+    ]
+      .filter(Boolean)
+      .join(' ')
+      .toLowerCase()
+      .includes(term),
   )
 }

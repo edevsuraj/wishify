@@ -2,6 +2,10 @@ import { Link } from 'react-router-dom'
 import { ArrowRight, Palette, PartyPopper, Send } from 'lucide-react'
 import AnimatedContent from '../react-bits/AnimatedContent.jsx'
 import Button from '../ui/Button.jsx'
+import OccasionArt from '../art/OccasionArt.jsx'
+import { OCCASION_MAP } from '../../lib/occasions.js'
+
+const MINI = ['birthday', 'anniversary', 'good-night']
 
 const STEPS = [
   {
@@ -11,11 +15,22 @@ const STEPS = [
     body: 'Birthday, anniversary, good night, or no reason at all. Start with the occasion and the feeling.',
     extra: (
       <div className="flex flex-wrap gap-1.5">
-        {['🎂 Birthday', '💕 Anniversary', '🌙 Good Night'].map((label) => (
-          <span key={label} className="rounded-full border border-ink/10 bg-white px-2.5 py-1 text-[0.68rem] font-medium text-cocoa">
-            {label}
-          </span>
-        ))}
+        {MINI.map((id) => {
+          const occasion = OCCASION_MAP[id]
+          if (!occasion) return null
+          return (
+            <span key={id} className="inline-flex items-center gap-1.5 rounded-full border border-ink/10 bg-white py-1 pl-1 pr-2.5 text-[0.68rem] font-medium text-cocoa">
+              <span className="h-5 w-5 overflow-hidden rounded-full">
+                {occasion.image ? (
+                  <img src={occasion.image} alt="" className="h-full w-full object-cover" loading="lazy" />
+                ) : (
+                  <OccasionArt occasion={occasion} className="h-full w-full" />
+                )}
+              </span>
+              {occasion.label}
+            </span>
+          )
+        })}
       </div>
     ),
   },

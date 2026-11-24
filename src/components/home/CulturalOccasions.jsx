@@ -4,7 +4,7 @@ import { ArrowRight, Globe2, Languages, Sparkles } from 'lucide-react'
 import AnimatedContent from '../react-bits/AnimatedContent.jsx'
 import OccasionCard from '../occasions/OccasionCard.jsx'
 import OccasionArt from '../art/OccasionArt.jsx'
-import { OCCASION_GROUPS, OCCASIONS_BY_GROUP, OCCASION_MAP } from '../../lib/occasions.js'
+import { OCCASION_GROUPS, OCCASIONS_BY_GROUP, OCCASION_MAP, CULTURAL_OCCASIONS } from '../../lib/occasions.js'
 
 const GROUPS = OCCASION_GROUPS.filter((group) => group.id !== 'everyday')
 const SHOWCASE = ['diwali', 'eid-al-fitr', 'christmas', 'gurpurab']
@@ -38,7 +38,7 @@ export default function CulturalOccasions() {
             <div className="mt-6 flex flex-wrap items-center gap-3 text-[0.72rem] font-medium text-cream/60">
               <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5">
                 <Globe2 className="h-3.5 w-3.5 text-gold-light" aria-hidden="true" />
-                31 festivals &amp; holy days
+                {CULTURAL_OCCASIONS.length} cultural celebrations
               </span>
               <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5">
                 <Languages className="h-3.5 w-3.5 text-gold-light" aria-hidden="true" />
@@ -140,7 +140,7 @@ export default function CulturalOccasions() {
                 key={occasion.id}
                 occasion={occasion}
                 to={`/create?occasion=${occasion.id}`}
-                size="compact"
+                size="tall"
                 className="!rounded-[1.15rem]"
               />
             ))}

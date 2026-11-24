@@ -165,7 +165,9 @@ export default function Templates() {
 
         {designs.length === 0 ? (
           <div className="mt-10 rounded-3xl border border-dashed border-ink/15 bg-white/50 px-6 py-16 text-center">
-            <span className="text-3xl">🪄</span>
+            <span className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-cream text-coral">
+              <Sparkles className="h-5 w-5" aria-hidden="true" />
+            </span>
             <h2 className="mt-3 text-xl font-semibold text-ink">No designs for this filter yet</h2>
             <p className="mx-auto mt-2 max-w-sm text-sm text-cocoa">
               That’s unusual — try another occasion, or start from a blank canvas and pick any

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+# Wishes live in the URL fragment, so there is nothing private to crawl here.

@@ -1,11 +1,24 @@
 import { Link } from 'react-router-dom'
 import { Check } from 'lucide-react'
 import OccasionArt from '../art/OccasionArt.jsx'
+import { OCCASION_GROUP_MAP } from '../../lib/occasions.js'
 
 const SIZES = {
   tall: 'aspect-[4/5]',
   compact: 'aspect-[5/4]',
   wide: 'aspect-[16/10]',
+}
+
+const GROUP_LABELS = {
+  everyday: 'Everyday',
+  hindu: 'Hindu',
+  islamic: 'Islamic',
+  christian: 'Christian',
+  sikh: 'Sikh',
+  buddhist: 'Buddhist',
+  jain: 'Jain',
+  national: 'National',
+  regional: 'Regional',
 }
 
 /**
@@ -52,7 +65,7 @@ export default function OccasionCard({
       <span aria-hidden="true" className="absolute inset-0 bg-grain opacity-[0.06] mix-blend-overlay" />
 
       <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-black/25 px-2.5 py-1 text-[0.55rem] font-semibold uppercase tracking-[0.16em] text-white/85 backdrop-blur-md">
-        {occasion.group === 'everyday' ? 'Everyday' : occasion.group === 'national' ? 'National' : occasion.group === 'regional' ? 'Regional' : 'Festival'}
+        {GROUP_LABELS[occasion.group] || OCCASION_GROUP_MAP[occasion.group]?.short || 'Wish'}
       </span>
 
       {active && (

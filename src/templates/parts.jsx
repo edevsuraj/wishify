@@ -11,7 +11,7 @@ export function wishCopy(wish = {}) {
   return {
     occasion,
     occasionLabel: occasion.label,
-    emoji: occasion.emoji,
+    emoji: occasion.emoji || '',
     heading: (wish.heading || '').trim() || occasion.heading || 'A Little Wish',
     recipient: (wish.recipient || '').trim() || 'Someone Special',
     sender: (wish.sender || '').trim(),

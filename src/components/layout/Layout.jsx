@@ -1,10 +1,14 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
+import { motion, useReducedMotion } from 'framer-motion'
 import Navbar from './Navbar.jsx'
 import Footer from './Footer.jsx'
 import AdConsent from '../ads/AdConsent.jsx'
 
 /** Standard site chrome for every page except the immersive /wish view. */
 export default function Layout() {
+  const location = useLocation()
+  const reduced = useReducedMotion()
+
   return (
     <div className="flex min-h-svh flex-col">
       <a
@@ -14,9 +18,16 @@ export default function Layout() {
         Skip to content
       </a>
       <Navbar />
-      <main id="main-content" className="flex-1">
+      <motion.main
+        id="main-content"
+        key={location.pathname}
+        className="flex-1"
+        initial={reduced ? false : { opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: reduced ? 0 : 0.45, ease: [0.22, 1, 0.36, 1] }}
+      >
         <Outlet />
-      </main>
+      </motion.main>
       <Footer />
       <AdConsent />
     </div>

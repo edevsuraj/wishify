@@ -7,6 +7,7 @@ const explore = [
   { to: '/create', label: 'Create a wish' },
   { to: '/templates', label: 'All designs' },
   { to: '/#occasions', label: 'Occasions' },
+  { to: '/#cultural', label: 'Religious & cultural' },
   { to: '/#how-it-works', label: 'How it works' },
 ]
 

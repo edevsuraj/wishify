@@ -8,7 +8,7 @@ export default {
         paper: '#FFFDF9',
         ink: '#241C18',
         cocoa: '#5C4A40',
-        taupe: '#8C786C',
+        taupe: '#7A6559',
         coral: {
           DEFAULT: '#E8607A',
           light: '#F6A6B2',

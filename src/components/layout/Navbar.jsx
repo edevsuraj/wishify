@@ -8,9 +8,12 @@ import Button from '../ui/Button.jsx'
 const LINKS = [
   { to: '/', label: 'Home', end: true },
   { to: '/templates', label: 'Designs' },
+  { to: '/#cultural', label: 'Festivals' },
   { to: '/#how-it-works', label: 'How it works' },
   { to: '/about', label: 'About' },
 ]
+
+const HASH_LINKS = new Set(['/#how-it-works', '/#cultural'])
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -58,7 +61,7 @@ export default function Navbar() {
               end={link.end}
               className={({ isActive }) =>
                 `relative rounded-full px-4 py-2 text-[0.9rem] font-medium transition-colors ${
-                  isActive && link.to !== '/#how-it-works'
+                  isActive && !HASH_LINKS.has(link.to)
                     ? 'text-ink'
                     : 'text-cocoa hover:bg-ink/[0.045] hover:text-ink'
                 }`
@@ -67,7 +70,7 @@ export default function Navbar() {
               {({ isActive }) => (
                 <>
                   {link.label}
-                  {isActive && link.to !== '/#how-it-works' && (
+                  {isActive && !HASH_LINKS.has(link.to) && (
                     <motion.span
                       layoutId="nav-dot"
                       className="absolute left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-coral"

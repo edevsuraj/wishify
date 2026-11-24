@@ -89,7 +89,9 @@ function buildInitialWish(params) {
     ? queryTemplate
     : TEMPLATE_IDS.includes(base.template)
       ? base.template
-      : null
+      : occasion
+        ? getOccasion(occasion)?.defaultTemplate || getTemplatesForOccasion(occasion)[0]?.id || null
+        : null
 
   return {
     ...base,
@@ -105,6 +107,7 @@ function resolveStartStep(wish, params) {
   const requested = Number.parseInt(params.get('step') || '', 10)
 
   if ([1, 2, 3, 4].includes(requested)) return Math.min(requested, maxAllowed)
+  if (params.has('occasion') && !params.has('template') && !completed) return Math.min(2, maxAllowed)
   if (params.has('template') && wish.occasion) return Math.min(3, maxAllowed)
   if (completed && wish.occasion && wish.template) return 4
   if (!wish.occasion) return 1
@@ -545,7 +548,7 @@ export default function Create() {
               occasion={item}
               active={wish.occasion === item.id}
               onSelect={selectOccasion}
-              size="compact"
+              size="tall"
             />
           ))}
         </div>
@@ -593,7 +596,7 @@ export default function Create() {
             </h2>
             <p className="mt-2 max-w-xl text-sm leading-relaxed text-cocoa">
               {occasion
-                ? `Twelve distinct designs, with the ones we’d suggest for ${occasion.label.toLowerCase()} badges first.`
+                ? `Twelve distinct designs, with our ${occasion.label} picks shown first.`
                 : 'Twelve distinct designs, each with its own layout, type, and personality.'}
             </p>
           </div>
@@ -1203,27 +1206,39 @@ export default function Create() {
 
   return (
     <>
-      <section className="relative overflow-hidden pb-8 pt-10 sm:pt-12">
+      <section className="relative overflow-hidden pb-6 pt-5 sm:pb-8 sm:pt-12">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-aurora opacity-45" />
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-grain opacity-[0.02]" />
         <div className="container-page relative">
-          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="eyebrow">
                 <span className="h-px w-6 bg-coral/50" />
                 Create a wish
               </p>
-              <h1 className="mt-3 max-w-2xl font-display text-[2.3rem] font-semibold leading-[1.08] tracking-[-0.025em] text-ink sm:text-5xl">
+              <h1
+                className={`mt-3 max-w-2xl font-display text-[2.3rem] font-semibold leading-[1.08] tracking-[-0.025em] text-ink sm:text-5xl ${
+                  step > 1 ? 'hidden sm:block' : ''
+                }`}
+              >
                 {wish.recipient.trim()
                   ? `Let’s make ${wish.recipient.trim()}’s day.`
                   : 'Let’s make someone’s day.'}
               </h1>
-              <p className="mt-3 max-w-xl text-sm leading-relaxed text-cocoa sm:text-[0.98rem]">
+              <p
+                className={`mt-3 max-w-xl text-sm leading-relaxed text-cocoa sm:text-[0.98rem] ${
+                  step > 1 ? 'hidden sm:block' : ''
+                }`}
+              >
                 Pick a moment, choose a look, and say the thing that matters. You can change
                 everything until you generate the link.
               </p>
             </div>
-            <div className="flex items-center gap-2">
+            <div
+              className={`flex items-center gap-2 ${
+                step > 1 ? 'self-end -mt-9 sm:mt-0 sm:self-auto' : 'self-start md:self-auto'
+              }`}
+            >
               <span className="hidden text-[0.68rem] text-taupe sm:inline">Draft saved in this tab</span>
               <button
                 type="button"
@@ -1236,7 +1251,7 @@ export default function Create() {
             </div>
           </div>
 
-          <div className="mt-8">
+          <div className="mt-4 sm:mt-8">
             <Stepper current={generated ? 4 : step} maxStep={generated ? 4 : maxStep} onSelect={goToStep} />
           </div>
         </div>
