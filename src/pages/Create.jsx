@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   ArrowRight,
@@ -58,7 +58,6 @@ import Button from '../components/ui/Button.jsx'
 import AdSlot from '../components/ads/AdSlot.jsx'
 import { useToast } from '../components/ui/Toast.jsx'
 import OccasionCard from '../components/occasions/OccasionCard.jsx'
-import OccasionArt from '../components/art/OccasionArt.jsx'
 
 const ANIMATION_OPTIONS = [
   { id: 'full', label: 'Full', hint: 'All the magic', icon: Sparkles },
@@ -468,7 +467,7 @@ export default function Create() {
           {occasion ? (
             <span className="inline-flex items-center gap-2 self-start rounded-full border border-ink/[0.08] bg-white py-1 pl-1 pr-3 text-[0.7rem] font-semibold text-ink shadow-sm">
               <span className="h-7 w-7 overflow-hidden rounded-full">
-                <OccasionArt occasion={occasion} className="h-full w-full" />
+                <img src={occasion.image} alt="" className="h-full w-full object-cover" />
               </span>
               {occasion.label}
             </span>
@@ -1354,12 +1353,6 @@ export default function Create() {
         </div>
       </Modal>
 
-      <p className="container-page pb-10 text-center text-[0.65rem] text-taupe">
-        Prefer to browse first?{' '}
-        <Link to="/templates" className="font-medium text-cocoa underline-offset-4 hover:text-ink hover:underline">
-          Explore all twelve designs
-        </Link>
-      </p>
     </>
   )
 }

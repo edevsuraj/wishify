@@ -73,24 +73,23 @@ export default function SampleWishes() {
   }
 
   return (
-    <section className="relative overflow-hidden bg-ink py-20 text-cream sm:py-24">
+    <section className="relative overflow-hidden bg-paper py-20 sm:py-24">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -left-24 top-0 h-80 w-80 rounded-full bg-coral/15 blur-3xl" />
+        <div className="absolute -left-24 top-0 h-80 w-80 rounded-full bg-coral/10 blur-3xl" />
         <div className="absolute -right-16 bottom-0 h-72 w-72 rounded-full bg-gold/10 blur-3xl" />
-        <div className="absolute inset-0 bg-grain opacity-[0.06]" />
       </div>
 
       <div className="container-page relative grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
         <div>
-          <p className="eyebrow text-gold-light">
-            <span className="h-px w-6 bg-gold/60" />
+          <p className="eyebrow text-coral-deep">
+            <span className="h-px w-6 bg-coral/50" />
             Words worth borrowing
           </p>
-          <h2 className="mt-4 text-3xl font-semibold tracking-[-0.02em] text-cream sm:text-[2.7rem] sm:leading-[1.1]">
+          <h2 className="mt-4 text-3xl font-semibold tracking-[-0.02em] text-ink sm:text-[2.7rem] sm:leading-[1.1]">
             When you can’t find the words,
-            <span className="block font-display italic text-[#F0D9AE]">start with one of ours.</span>
+            <span className="block font-display italic text-coral-deep">start with one of ours.</span>
           </h2>
-          <p className="mt-5 max-w-md text-[0.98rem] leading-relaxed text-cream/65">
+          <p className="mt-5 max-w-md text-[0.98rem] leading-relaxed text-cocoa">
             Real words, written for real feelings. Borrow one, change a line, or use it as a
             jumping-off point. It’s still your voice.
           </p>
@@ -113,8 +112,8 @@ export default function SampleWishes() {
                 onClick={() => setActive(index)}
                 className={`rounded-full border px-4 py-2 text-xs font-semibold transition ${
                   index === active
-                    ? 'border-gold/50 bg-gold/15 text-[#F0D9AE]'
-                    : 'border-cream/15 text-cream/55 hover:border-cream/30 hover:text-cream/85'
+                    ? 'border-ink bg-ink text-cream'
+                    : 'border-ink/12 text-cocoa hover:border-ink/25 hover:text-ink'
                 }`}
               >
                 {item.tab}
@@ -124,7 +123,7 @@ export default function SampleWishes() {
 
           <Link
             to="/create"
-            className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-cream/75 transition hover:text-cream"
+            className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-cocoa transition hover:text-ink"
           >
             Or write your own from scratch
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -133,8 +132,8 @@ export default function SampleWishes() {
 
         <div className="relative">
           <div aria-hidden="true" className="absolute inset-6 rounded-[2rem] bg-gradient-to-br from-coral/20 to-gold/10 blur-2xl" />
-          <div className="relative rounded-[2rem] border border-cream/10 bg-cream/[0.045] p-6 shadow-[0_40px_80px_-40px_rgba(0,0,0,0.7)] backdrop-blur-sm sm:p-9">
-            <Quote className="h-8 w-8 text-gold/50" aria-hidden="true" />
+          <div className="relative rounded-[2rem] border border-ink/[0.07] bg-white p-6 shadow-soft sm:p-9">
+            <Quote className="h-8 w-8 text-coral/50" aria-hidden="true" />
 
             <AnimatePresence mode="wait">
               <motion.div
@@ -145,16 +144,16 @@ export default function SampleWishes() {
                 transition={{ duration: reduced ? 0.01 : 0.35 }}
               >
                 <blockquote>
-                  <p className="mt-2 font-display text-[1.45rem] italic leading-[1.5] text-cream/95 sm:text-[1.75rem]">
+                  <p className="mt-2 font-display text-[1.45rem] italic leading-[1.5] text-ink sm:text-[1.75rem]">
                     “{sample.message}”
                   </p>
                   <footer className="mt-7 flex items-center gap-3">
-                    <div className="w-12 shrink-0 overflow-hidden rounded-lg ring-1 ring-cream/15">
+                    <div className="w-12 shrink-0 overflow-hidden rounded-lg ring-1 ring-ink/10">
                       <TemplateThumb template={template} name={sample.name} heading={sample.heading} />
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-cream">{sample.name}</p>
-                      <p className="text-[0.7rem] uppercase tracking-[0.16em] text-cream/45">
+                      <p className="text-sm font-semibold text-ink">{sample.name}</p>
+                      <p className="text-[0.7rem] uppercase tracking-[0.16em] text-taupe">
                         {sample.label} · {template.name}
                       </p>
                     </div>
@@ -163,23 +162,23 @@ export default function SampleWishes() {
               </motion.div>
             </AnimatePresence>
 
-            <div className="mt-8 flex flex-wrap items-center gap-3 border-t border-cream/10 pt-5">
+            <div className="mt-8 flex flex-wrap items-center gap-3 border-t border-ink/[0.08] pt-5">
               <button
                 type="button"
                 onClick={handleCopy}
-                className="inline-flex items-center gap-2 rounded-full border border-cream/20 px-4 py-2 text-xs font-semibold text-cream/80 transition hover:border-cream/40 hover:text-cream"
+                className="inline-flex items-center gap-2 rounded-full border border-ink/12 px-4 py-2 text-xs font-semibold text-cocoa transition hover:border-ink/25 hover:text-ink"
               >
                 <Copy className="h-3.5 w-3.5" aria-hidden="true" />
                 Copy message
               </button>
               <Link
                 to={`/create?occasion=${sample.occasion}&template=${sample.template}`}
-                className="inline-flex items-center gap-2 rounded-full bg-cream px-4 py-2 text-xs font-bold text-ink transition hover:-translate-y-0.5 hover:bg-white"
+                className="inline-flex items-center gap-2 rounded-full bg-ink px-4 py-2 text-xs font-bold text-cream transition hover:-translate-y-0.5 hover:bg-[#3A2C24]"
               >
                 Use this wish
                 <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
               </Link>
-              <span className="ml-auto hidden text-[0.65rem] uppercase tracking-[0.16em] text-cream/30 sm:block">
+              <span className="ml-auto hidden text-[0.65rem] uppercase tracking-[0.16em] text-taupe sm:block">
                 Sample · yours in two minutes
               </span>
             </div>

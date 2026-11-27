@@ -53,7 +53,7 @@ const SAMPLE_NAMES = {
   'chhath-puja': 'The Yadavs',
 }
 
-/** Example data used on /templates and in marketing previews. */
+/** Example data used in the home gallery and marketing previews. */
 export function createSampleWish(occasionId = 'birthday', templateId = DEFAULT_TEMPLATE_ID) {
   const occasion = getOccasion(occasionId) || OCCASION_MAP.birthday
   return {

@@ -1,8 +1,6 @@
-import { Link } from 'react-router-dom'
 import { ArrowRight, Palette, PartyPopper, Send } from 'lucide-react'
 import AnimatedContent from '../react-bits/AnimatedContent.jsx'
 import Button from '../ui/Button.jsx'
-import OccasionArt from '../art/OccasionArt.jsx'
 import { OCCASION_MAP } from '../../lib/occasions.js'
 
 const MINI = ['birthday', 'anniversary', 'good-night']
@@ -21,11 +19,7 @@ const STEPS = [
           return (
             <span key={id} className="inline-flex items-center gap-1.5 rounded-full border border-ink/10 bg-white py-1 pl-1 pr-2.5 text-[0.68rem] font-medium text-cocoa">
               <span className="h-5 w-5 overflow-hidden rounded-full">
-                {occasion.image ? (
-                  <img src={occasion.image} alt="" className="h-full w-full object-cover" loading="lazy" />
-                ) : (
-                  <OccasionArt occasion={occasion} className="h-full w-full" />
-                )}
+                <img src={occasion.image} alt="" className="h-full w-full object-cover" loading="lazy" />
               </span>
               {occasion.label}
             </span>
@@ -113,9 +107,6 @@ export default function HowItWorks() {
             Start a wish
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Button>
-          <Link to="/templates" className="text-xs font-medium text-taupe underline-offset-4 hover:text-ink hover:underline">
-            Or browse the designs first
-          </Link>
         </AnimatedContent>
       </div>
     </section>

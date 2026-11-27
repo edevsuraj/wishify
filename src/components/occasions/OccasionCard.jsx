@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import { Check } from 'lucide-react'
-import OccasionArt from '../art/OccasionArt.jsx'
 import { OCCASION_GROUP_MAP } from '../../lib/occasions.js'
 
 const SIZES = {
@@ -21,10 +20,7 @@ const GROUP_LABELS = {
   regional: 'Regional',
 }
 
-/**
- * One image-led occasion tile. Falls back to bespoke SVG artwork when a
- * respectful photograph isn't the right fit.
- */
+/** One photo-led occasion tile. */
 export default function OccasionCard({
   occasion,
   active = false,
@@ -41,21 +37,13 @@ export default function OccasionCard({
   const content = (
     <>
       <span aria-hidden="true" className="absolute inset-0">
-        {occasion.image ? (
-          <img
-            src={occasion.image}
-            alt=""
-            loading={priority ? 'eager' : 'lazy'}
-            decoding="async"
-            className="h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.06]"
-          />
-        ) : (
-          <OccasionArt
-            occasion={occasion}
-            className="h-full w-full transition-transform duration-[900ms] ease-out group-hover:scale-[1.06]"
-            rounded={false}
-          />
-        )}
+        <img
+          src={occasion.image}
+          alt=""
+          loading={priority ? 'eager' : 'lazy'}
+          decoding="async"
+          className="h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.06]"
+        />
       </span>
 
       <span

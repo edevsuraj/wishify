@@ -1,15 +1,13 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { AlertTriangle, ArrowRight, Heart, MailOpen, ShieldCheck } from 'lucide-react'
+import { AlertTriangle, ArrowRight, Heart, MailOpen } from 'lucide-react'
 import usePageMeta from '../lib/usePageMeta.js'
 import { readWishHash } from '../lib/share.js'
 import { getTemplate } from '../lib/templates.js'
 import Logo from '../components/ui/Logo.jsx'
 import Button from '../components/ui/Button.jsx'
 import WishStage from '../components/greeting/WishStage.jsx'
-import WishActions from '../components/greeting/WishActions.jsx'
-import AdSlot from '../components/ads/AdSlot.jsx'
 
 function WishFallback({ result }) {
   const isEmpty = result.reason === 'empty'
@@ -63,9 +61,6 @@ function WishFallback({ result }) {
               <Heart className="h-4 w-4" fill="currentColor" aria-hidden="true" />
               Create your own wish
             </Button>
-            <Button to="/templates" variant="secondary" size="lg">
-              Explore designs
-            </Button>
           </div>
         </motion.div>
       </main>
@@ -80,7 +75,6 @@ function WishFallback({ result }) {
 export default function Wish() {
   const location = useLocation()
   const [hash, setHash] = useState(() => (typeof window === 'undefined' ? '' : window.location.hash))
-  const [opened, setOpened] = useState(false)
   const [stageKey, setStageKey] = useState(0)
   const lastHashRef = useRef(hash)
 
@@ -109,24 +103,14 @@ export default function Wish() {
     // Only reset when the hash genuinely changes, not on first mount.
     if (lastHashRef.current === hash) return
     lastHashRef.current = hash
-    setOpened(false)
     setStageKey((key) => key + 1)
   }, [hash])
-
-  const handleOpenedChange = useCallback((value) => setOpened(value), [])
-
-  const replay = useCallback(() => {
-    setOpened(false)
-    setStageKey((key) => key + 1)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }, [])
 
   if (!result.ok || !wish || !template) {
     return <WishFallback result={result} />
   }
 
   const cover = template.cover
-  const shareUrl = typeof window !== 'undefined' ? window.location.href : ''
 
   return (
     <div className="relative min-h-svh overflow-x-hidden" style={{ background: cover.bg }}>
@@ -163,64 +147,10 @@ export default function Wish() {
             <div
               className="h-[calc(100svh-3.5rem)] overflow-hidden shadow-[0_30px_80px_-30px_rgba(0,0,0,0.55)] sm:h-[min(86svh,880px)] sm:rounded-[2rem] sm:ring-1 sm:ring-white/20"
             >
-              <WishStage
-                key={stageKey}
-                wish={wish}
-                onOpenedChange={handleOpenedChange}
-              />
+              <WishStage key={stageKey} wish={wish} />
             </div>
           </div>
         </main>
-
-        {opened && (
-          <motion.section
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="relative mt-6 border-t border-white/10 bg-cream px-4 py-12 text-ink sm:mt-10 sm:rounded-t-[2rem] sm:px-8 sm:py-14"
-          >
-            <div className="mx-auto max-w-3xl text-center">
-              <p className="eyebrow justify-center">
-                <span className="h-px w-6 bg-coral/40" />
-                Delivered with love
-                <span className="h-px w-6 bg-coral/40" />
-              </p>
-              <h2 className="mt-3 font-display text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
-                A little happiness, now in {wish.recipient}’s hands.
-              </h2>
-              <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-cocoa">
-                Want to send one back? Or share this exact wish with someone who might need it
-                today?
-              </p>
-
-              <div className="mt-8">
-                <WishActions wish={wish} url={shareUrl} onReplay={replay} />
-              </div>
-
-              <div className="mt-8 flex flex-col items-center justify-center gap-2 text-[0.7rem] text-taupe sm:flex-row">
-                <span className="inline-flex items-center gap-1.5">
-                  <ShieldCheck className="h-3.5 w-3.5 text-sage" aria-hidden="true" />
-                  Anyone with this link can view this wish.
-                </span>
-                <span className="hidden text-ink/20 sm:inline" aria-hidden="true">
-                  ·
-                </span>
-                <span>Nothing is stored on a server, and links can’t be revoked.</span>
-              </div>
-
-              <p className="mt-6">
-                <Link
-                  to="/privacy"
-                  className="text-[0.7rem] font-medium text-taupe underline-offset-4 hover:text-ink hover:underline"
-                >
-                  How Wishify handles privacy
-                </Link>
-              </p>
-            </div>
-
-            <AdSlot placement="wish" className="mt-10" />
-          </motion.section>
-        )}
       </div>
     </div>
   )

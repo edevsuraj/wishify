@@ -1,24 +1,23 @@
 import { useEffect, useState } from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom'
-import { AnimatePresence, motion } from 'framer-motion'
-import { Menu, X, ArrowRight } from 'lucide-react'
+import { Link, useLocation } from 'react-router-dom'
+import { ArrowRight, Menu, X } from 'lucide-react'
 import Logo from '../ui/Logo.jsx'
 import Button from '../ui/Button.jsx'
 
 const LINKS = [
-  { to: '/', label: 'Home', end: true },
-  { to: '/templates', label: 'Designs' },
-  { to: '/#cultural', label: 'Festivals' },
-  { to: '/#how-it-works', label: 'How it works' },
+  { to: '/#how-it-works', label: 'How it works', hash: '#how-it-works' },
   { to: '/about', label: 'About' },
 ]
-
-const HASH_LINKS = new Set(['/#how-it-works', '/#cultural'])
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const location = useLocation()
+
+  const isActive = (link) =>
+    link.hash
+      ? location.pathname === '/' && location.hash === link.hash
+      : location.pathname === link.to
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12)
@@ -40,13 +39,11 @@ export default function Navbar() {
     }
   }, [open])
 
-  const isHome = location.pathname === '/'
-
   return (
     <header
       className={`sticky top-0 z-50 transition-all duration-300 ${
         scrolled || open
-          ? 'border-b border-ink/[0.07] bg-cream/85 backdrop-blur-xl'
+          ? 'border-b border-ink/[0.07] bg-cream/90 backdrop-blur-xl'
           : 'border-b border-transparent bg-transparent'
       }`}
     >
@@ -55,104 +52,58 @@ export default function Navbar() {
 
         <nav className="hidden items-center gap-1 md:flex" aria-label="Main">
           {LINKS.map((link) => (
-            <NavLink
+            <Link
               key={link.to}
               to={link.to}
-              end={link.end}
-              className={({ isActive }) =>
-                `relative rounded-full px-4 py-2 text-[0.9rem] font-medium transition-colors ${
-                  isActive && !HASH_LINKS.has(link.to)
-                    ? 'text-ink'
-                    : 'text-cocoa hover:bg-ink/[0.045] hover:text-ink'
-                }`
-              }
+              className={`rounded-full px-3.5 py-2 text-[0.9rem] font-medium transition-colors ${
+                isActive(link) ? 'text-ink' : 'text-cocoa hover:bg-ink/[0.045] hover:text-ink'
+              }`}
             >
-              {({ isActive }) => (
-                <>
-                  {link.label}
-                  {isActive && !HASH_LINKS.has(link.to) && (
-                    <motion.span
-                      layoutId="nav-dot"
-                      className="absolute left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-coral"
-                      style={{ bottom: '0.25rem' }}
-                    />
-                  )}
-                </>
-              )}
-            </NavLink>
+              {link.label}
+            </Link>
           ))}
         </nav>
 
-        <div className="hidden items-center gap-2 md:flex">
-          <Link
-            to="/templates"
-            className="rounded-full px-3.5 py-2 text-[0.9rem] font-medium text-cocoa transition hover:text-ink"
-          >
-            Explore
-          </Link>
-          <Button to="/create" variant="primary" size="md">
-            Create a Wish
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+        <div className="flex items-center gap-2">
+          <Button to="/create" variant="primary" size="sm">
+            <span className="sm:hidden">Create</span>
+            <span className="hidden sm:inline">Create a Wish</span>
+            <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
           </Button>
+          <button
+            type="button"
+            className="grid h-10 w-10 place-items-center rounded-full border border-ink/10 bg-white/70 text-ink md:hidden"
+            onClick={() => setOpen((value) => !value)}
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            aria-label={open ? 'Close menu' : 'Open menu'}
+          >
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
         </div>
-
-        <button
-          type="button"
-          className="grid h-10 w-10 place-items-center rounded-full border border-ink/10 bg-white/70 text-ink md:hidden"
-          onClick={() => setOpen((value) => !value)}
-          aria-expanded={open}
-          aria-controls="mobile-menu"
-          aria-label={open ? 'Close menu' : 'Open menu'}
-        >
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
       </div>
 
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            id="mobile-menu"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="overflow-hidden border-t border-ink/[0.06] bg-cream/95 backdrop-blur-xl md:hidden"
-          >
-            <div className="container-page flex flex-col gap-1 py-5">
-              {LINKS.map((link, index) => (
-                <motion.div
-                  key={link.to}
-                  initial={{ opacity: 0, x: -8 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.03 * index }}
-                >
-                  <NavLink
-                    to={link.to}
-                    end={link.end}
-                    className={({ isActive }) =>
-                      `flex items-center justify-between rounded-2xl px-4 py-3 text-base font-medium ${
-                        isActive ? 'bg-white text-ink shadow-soft' : 'text-cocoa hover:bg-white/60'
-                      }`
-                    }
-                  >
-                    {link.label}
-                    <ArrowRight className="h-4 w-4 text-taupe" aria-hidden="true" />
-                  </NavLink>
-                </motion.div>
-              ))}
-              <Button to="/create" variant="coral" size="lg" className="mt-3 w-full">
-                Create a Wish
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </Button>
-              {!isHome && (
-                <p className="px-2 pb-1 pt-3 text-center text-xs text-taupe">
-                  One link. No sign-up. Just a little happiness.
-                </p>
-              )}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {open && (
+        <nav
+          id="mobile-menu"
+          aria-label="Mobile"
+          className="border-t border-ink/[0.06] bg-cream/95 backdrop-blur-xl md:hidden"
+        >
+          <div className="container-page flex flex-col py-3">
+            {LINKS.map((link) => (
+              <Link
+                key={link.to}
+                to={link.to}
+                className={`rounded-xl px-3 py-3 text-[0.95rem] font-medium transition-colors ${
+                  isActive(link) ? 'bg-white text-ink shadow-soft' : 'text-cocoa hover:bg-white/60'
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        </nav>
+      )}
     </header>
   )
 }

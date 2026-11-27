@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react'
 import { ArrowUpRight, Heart } from 'lucide-react'
 import { getTemplate } from '../../lib/templates.js'
 import { getOccasion } from '../../lib/occasions.js'
-import OccasionArt from '../art/OccasionArt.jsx'
 import { HEART_BITS, TWINKLE_BITS, wishCopy } from '../../templates/parts.jsx'
 
 function Envelope({ accent, occasion }) {
@@ -61,16 +60,12 @@ function Envelope({ accent, occasion }) {
         >
           {occasion ? (
             <span className="absolute inset-[9%] overflow-hidden rounded-full">
-              {occasion.image ? (
-                <img
-                  src={occasion.image}
-                  alt=""
-                  className="h-full w-full object-cover"
-                  loading="eager"
-                />
-              ) : (
-                <OccasionArt occasion={occasion} className="h-full w-full" />
-              )}
+              <img
+                src={occasion.image}
+                alt=""
+                className="h-full w-full object-cover"
+                loading="eager"
+              />
             </span>
           ) : (
             <Heart className="h-[48%] w-[48%] text-[#FFF6EC]" fill="currentColor" strokeWidth={1.2} aria-hidden="true" />
@@ -102,11 +97,12 @@ export default function CoverScreen({ wish, onOpen }) {
       {occasion && (
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
           <span className="absolute inset-0 opacity-[0.5]">
-            {occasion.image ? (
-              <img src={occasion.image} alt="" className="h-full w-full scale-105 object-cover blur-[1.5px]" />
-            ) : (
-              <OccasionArt occasion={occasion} className="h-full w-full" rounded={false} />
-            )}
+            <img
+              src={occasion.image}
+              alt=""
+              className="h-full w-full scale-105 object-cover blur-[1.5px]"
+              loading="eager"
+            />
           </span>
           <span className="absolute inset-0" style={{ background: cover.bg, opacity: 0.74 }} />
           <span
@@ -174,11 +170,7 @@ export default function CoverScreen({ wish, onOpen }) {
             }}
           >
             <span className="h-7 w-7 overflow-hidden rounded-full ring-1 ring-white/40">
-              {occasion.image ? (
-                <img src={occasion.image} alt="" className="h-full w-full object-cover" />
-              ) : (
-                <OccasionArt occasion={occasion} className="h-full w-full" />
-              )}
+              <img src={occasion.image} alt="" className="h-full w-full object-cover" loading="eager" />
             </span>
             {occasion.label}
           </span>

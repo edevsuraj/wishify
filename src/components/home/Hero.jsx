@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import { motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, LayoutGrid, Link2, ShieldCheck, Heart, Sparkles, MousePointerClick } from 'lucide-react'
-import Button from '../ui/Button.jsx'
+import { ArrowRight, Link2, ShieldCheck, Heart, Sparkles, MousePointerClick } from 'lucide-react'
 import StarBorder from '../react-bits/StarBorder.jsx'
 import GradientText from '../react-bits/GradientText.jsx'
 import ShinyText from '../react-bits/ShinyText.jsx'
@@ -12,16 +11,6 @@ import ClickSpark from '../react-bits/ClickSpark.jsx'
 import CountUp from '../react-bits/CountUp.jsx'
 import TemplateThumb from '../templates/TemplateThumb.jsx'
 import { getTemplate } from '../../lib/templates.js'
-
-const RIBBON = [
-  { id: 'birthday', label: 'Birthday', image: '/images/hero/balloons.jpg' },
-  { id: 'wedding', label: 'Wedding', image: '/images/hero/wedding.jpg' },
-  { id: 'diwali', label: 'Diwali', image: '/images/hero/diwali.jpg', art: true },
-  { id: 'good-night', label: 'Good Night', image: '/images/occasions/good-night.jpg' },
-  { id: 'love', label: 'Love', image: '/images/hero/love.jpg' },
-  { id: 'friendship', label: 'Friendship', image: '/images/hero/friends.jpg' },
-  { id: 'holi', label: 'Holi', image: '/images/hero/holi.jpg', art: true },
-]
 
 function HeartMark() {
   return (
@@ -65,7 +54,7 @@ function StackCard({ templateId, className = '', style, name, heading, delay = 0
     >
       <div className="animate-float-slow" style={{ animationDelay: `${delay * -3}s` }}>
         <Link
-          to={`/templates?design=${template.id}`}
+          to={`/create?template=${template.id}`}
           aria-label={`Preview the ${template.name} design`}
           className="group relative block overflow-hidden rounded-2xl border border-white/70 bg-white shadow-lift ring-1 ring-ink/[0.06] transition-transform duration-500 hover:-translate-y-1 hover:rotate-0"
         >
@@ -147,10 +136,6 @@ export default function Hero() {
                     </Link>
                   </StarBorder>
                 </ClickSpark>
-                <Button to="/templates" variant="secondary" size="lg" className="w-full sm:w-auto">
-                  <LayoutGrid className="h-4 w-4" aria-hidden="true" />
-                  Explore Designs
-                </Button>
               </motion.div>
 
               <motion.div
@@ -250,53 +235,6 @@ export default function Hero() {
           </div>
         </div>
       </Spotlight>
-
-      <div className="relative border-y border-ink/[0.06] bg-paper/70 py-10 backdrop-blur-sm sm:py-12">
-        <div className="container-page">
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="eyebrow">
-                <span className="h-px w-6 bg-coral/50" />
-                Real moments, beautifully sent
-              </p>
-              <p className="mt-2 max-w-xl font-display text-xl font-semibold tracking-tight text-ink sm:text-2xl">
-                Birthdays, weddings, festivals — every feeling has a place here.
-              </p>
-            </div>
-            <Link
-              to="/templates"
-              className="group inline-flex items-center gap-1.5 text-[0.78rem] font-semibold text-cocoa underline-offset-4 hover:text-ink hover:underline"
-            >
-              Browse all designs
-              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
-            </Link>
-          </div>
-
-          <div className="no-scrollbar -mx-5 mt-6 flex gap-3 overflow-x-auto px-5 pb-1 sm:mx-0 sm:px-0">
-            {RIBBON.map((item) => (
-              <Link
-                key={item.id}
-                to={`/create?occasion=${item.id}`}
-                className="group relative w-[42vw] max-w-[172px] shrink-0 overflow-hidden rounded-[1.2rem] bg-ink shadow-soft"
-              >
-                <span className="block aspect-[3/4] overflow-hidden">
-                  <img
-                    src={item.image}
-                    alt=""
-                    loading="lazy"
-                    decoding="async"
-                    className="h-full w-full object-cover transition-transform duration-[900ms] group-hover:scale-105"
-                  />
-                </span>
-                <span className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
-                <span className="absolute inset-x-0 bottom-0 p-3 text-[0.72rem] font-semibold text-white">
-                  {item.label}
-                </span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </div>
     </section>
   )
 }

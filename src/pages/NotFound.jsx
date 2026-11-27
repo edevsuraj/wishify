@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, Compass, Heart, Home } from 'lucide-react'
+import { ArrowRight, Heart, Home } from 'lucide-react'
 import usePageMeta from '../lib/usePageMeta.js'
 import Button from '../components/ui/Button.jsx'
 import TemplateThumb from '../components/templates/TemplateThumb.jsx'
@@ -30,8 +30,8 @@ export default function NotFound() {
           This page wandered off looking for a card.
         </h1>
         <p className="mt-4 max-w-md text-sm leading-relaxed text-cocoa">
-          The link might be old, mistyped, or the page might have moved. No harm done — there are
-          still twelve lovely designs waiting.
+          The link might be old, mistyped, or the page might have moved. No harm done — there’s
+          still a lovely wish waiting to be made.
         </p>
 
         <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row">
@@ -49,8 +49,8 @@ export default function NotFound() {
           {TEMPLATES.slice(0, 3).map((template, index) => (
             <Link
               key={template.id}
-              to={`/templates?design=${template.id}`}
-              aria-label={`View ${template.name}`}
+              to={`/create?template=${template.id}`}
+              aria-label={`Create a wish with ${template.name}`}
               className={`w-20 overflow-hidden rounded-xl border border-white/60 shadow-soft transition hover:-translate-y-1 sm:w-28 ${
                 index === 1 ? '-translate-y-3 rotate-[-2deg]' : index === 0 ? 'rotate-[3deg]' : 'rotate-[-4deg]'
               }`}
@@ -61,10 +61,6 @@ export default function NotFound() {
         </div>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-taupe">
-          <Link to="/templates" className="inline-flex items-center gap-1.5 hover:text-ink">
-            <Compass className="h-3.5 w-3.5" aria-hidden="true" />
-            Browse designs
-          </Link>
           <Link to="/about" className="hover:text-ink">
             About Wishify
           </Link>

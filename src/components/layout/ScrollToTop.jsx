@@ -8,18 +8,31 @@ export default function ScrollToTop() {
   const location = useLocation()
 
   useEffect(() => {
-    if (location.hash && location.pathname !== '/wish') {
-      const id = decodeURIComponent(location.hash.slice(1))
+    if (!location.hash || location.pathname === '/wish') {
+      window.scrollTo(0, 0)
+      return undefined
+    }
+
+    const id = decodeURIComponent(location.hash.slice(1))
+    let frame
+    let attempts = 0
+
+    // The target can belong to a lazy-loaded route, so wait for it to mount.
+    const scrollWhenReady = () => {
       const element = document.getElementById(id)
       if (element) {
-        const timer = window.setTimeout(() => {
-          element.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        }, 90)
-        return () => window.clearTimeout(timer)
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        return
+      }
+      if (attempts++ < 30) {
+        frame = window.requestAnimationFrame(scrollWhenReady)
+      } else {
+        window.scrollTo(0, 0)
       }
     }
-    window.scrollTo(0, 0)
-    return undefined
+
+    frame = window.requestAnimationFrame(scrollWhenReady)
+    return () => window.cancelAnimationFrame(frame)
   }, [location.pathname, location.hash])
 
   return null

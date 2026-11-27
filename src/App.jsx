@@ -7,7 +7,6 @@ import { AdsProvider } from './components/ads/AdsProvider.jsx'
 
 const Home = lazy(() => import('./pages/Home.jsx'))
 const Create = lazy(() => import('./pages/Create.jsx'))
-const Templates = lazy(() => import('./pages/Templates.jsx'))
 const Wish = lazy(() => import('./pages/Wish.jsx'))
 const About = lazy(() => import('./pages/About.jsx'))
 const Privacy = lazy(() => import('./pages/Privacy.jsx'))
@@ -27,7 +26,6 @@ export default function App() {
             <Route element={<Layout />} errorElement={<RouteError />}>
               <Route index element={<Home />} />
               <Route path="/create" element={<Create />} />
-              <Route path="/templates" element={<Templates />} />
               <Route path="/about" element={<About />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/terms" element={<Terms />} />

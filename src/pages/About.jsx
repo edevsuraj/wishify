@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, Heart, Lock, Palette, ShieldCheck, Sparkles, Wind } from 'lucide-react'
+import { ArrowRight, Coffee, ExternalLink, Heart, Lock, Mail, Palette, ShieldCheck, Sparkles, Wallet, Wind } from 'lucide-react'
 import usePageMeta from '../lib/usePageMeta.js'
 import PageHeader from '../components/ui/PageHeader.jsx'
 import Button from '../components/ui/Button.jsx'
+import UpiButton from '../components/ui/UpiButton.jsx'
 import { SITE } from '../lib/site.js'
 
 const VALUES = [
@@ -77,9 +78,6 @@ export default function About() {
           <Button to="/create" variant="primary" size="lg">
             Create a wish
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </Button>
-          <Button to="/templates" variant="secondary" size="lg">
-            Explore designs
           </Button>
         </div>
       </PageHeader>
@@ -191,31 +189,116 @@ export default function About() {
         </div>
       </section>
 
+      <section className="container-page pb-16 sm:pb-20">
+        <div className="mx-auto max-w-3xl rounded-[1.75rem] border border-ink/[0.07] bg-paper p-6 shadow-soft sm:p-8">
+          <div className="eyebrow text-coral-deep">
+            <Heart className="h-3.5 w-3.5 text-coral" aria-hidden="true" />
+            Support &amp; more
+          </div>
+          <h2 className="mt-3 font-display text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+            Like what you see?
+          </h2>
+          <p className="mt-2 text-sm leading-relaxed text-cocoa">
+            Wishify is free to use. If you’d like to support it, or see what else I’ve built, here’s
+            where to find me.
+          </p>
+
+          <div className="mt-6 grid gap-3 sm:grid-cols-2">
+            <a
+              href={`mailto:${SITE.email}`}
+              className="group flex items-center gap-3 rounded-xl border border-ink/[0.07] bg-white px-4 py-3 transition hover:border-coral/25"
+            >
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-cream text-coral">
+                <Mail className="h-4 w-4" aria-hidden="true" />
+              </span>
+              <span className="min-w-0">
+                <span className="block text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-taupe">
+                  Email
+                </span>
+                <span className="block truncate text-sm font-medium text-ink group-hover:text-coral-deep">
+                  {SITE.email}
+                </span>
+              </span>
+            </a>
+
+            <a
+              href={SITE.donate}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center gap-3 rounded-xl border border-ink/[0.07] bg-white px-4 py-3 transition hover:border-coral/25"
+            >
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-cream text-coral">
+                <Coffee className="h-4 w-4" aria-hidden="true" />
+              </span>
+              <span className="min-w-0">
+                <span className="block text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-taupe">
+                  Donate
+                </span>
+                <span className="block truncate text-sm font-medium text-ink group-hover:text-coral-deep">
+                  Buy me a coffee
+                </span>
+              </span>
+            </a>
+
+            <div className="flex items-center gap-3 rounded-xl border border-ink/[0.07] bg-white px-4 py-3">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-cream text-coral">
+                <Wallet className="h-4 w-4" aria-hidden="true" />
+              </span>
+              <span className="min-w-0">
+                <span className="block text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-taupe">
+                  UPI
+                </span>
+                <UpiButton
+                  showLabel={false}
+                  className="inline-flex items-center gap-1.5 text-sm font-medium text-ink transition hover:text-coral-deep"
+                />
+              </span>
+            </div>
+
+            <a
+              href={SITE.moreApps}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center gap-3 rounded-xl border border-ink/[0.07] bg-white px-4 py-3 transition hover:border-coral/25"
+            >
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-cream text-coral">
+                <ExternalLink className="h-4 w-4" aria-hidden="true" />
+              </span>
+              <span className="min-w-0">
+                <span className="block text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-taupe">
+                  More apps
+                </span>
+                <span className="block truncate text-sm font-medium text-ink group-hover:text-coral-deep">
+                  Apps &amp; extensions
+                </span>
+              </span>
+            </a>
+          </div>
+        </div>
+      </section>
+
       <section className="container-page pb-20">
-        <div className="relative overflow-hidden rounded-[2rem] bg-ink px-6 py-12 text-center text-cream sm:px-10 sm:py-16">
-          <div aria-hidden="true" className="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full bg-coral/20 blur-3xl" />
-          <div aria-hidden="true" className="pointer-events-none absolute -bottom-20 -right-10 h-64 w-64 rounded-full bg-gold/15 blur-3xl" />
-          <h2 className="relative font-display text-3xl font-semibold tracking-tight sm:text-4xl">
+        <div className="relative overflow-hidden rounded-[2rem] border border-ink/[0.07] bg-[#F6F0E5] px-6 py-12 text-center sm:px-10 sm:py-16">
+          <div aria-hidden="true" className="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full bg-coral/15 blur-3xl" />
+          <div aria-hidden="true" className="pointer-events-none absolute -bottom-20 -right-10 h-64 w-64 rounded-full bg-gold/10 blur-3xl" />
+          <h2 className="relative font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
             Say the thing you’ve been meaning to say.
           </h2>
-          <p className="relative mx-auto mt-4 max-w-lg text-sm leading-relaxed text-cream/65">
+          <p className="relative mx-auto mt-4 max-w-lg text-sm leading-relaxed text-cocoa">
             It takes two minutes. They might keep the link for years.
           </p>
           <div className="relative mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Button to="/create" variant="coral" size="lg">
+            <Button to="/create" variant="primary" size="lg">
               Create a wish
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Button>
             <Link
               to={`mailto:${SITE.email}`}
-              className="text-sm font-medium text-cream/75 underline-offset-4 hover:text-cream hover:underline"
+              className="text-sm font-medium text-cocoa underline-offset-4 hover:text-ink hover:underline"
             >
-              Say hello instead
+              Say hello: {SITE.email}
             </Link>
           </div>
-          <p className="relative mt-8 text-[0.65rem] uppercase tracking-[0.2em] text-cream/35">
-            Built with React · Vite · Tailwind · Framer Motion · React Bits inspiration
-          </p>
         </div>
       </section>
     </>

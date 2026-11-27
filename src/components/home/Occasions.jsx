@@ -14,7 +14,7 @@ export default function Occasions() {
           <div className="max-w-2xl">
             <p className="eyebrow">
               <span className="h-px w-6 bg-coral/50" />
-              Find the moment
+              Real moments, beautifully sent
             </p>
             <h2 className="mt-4 text-3xl font-semibold tracking-[-0.02em] text-ink sm:text-[2.6rem]">
               Every occasion has a feeling

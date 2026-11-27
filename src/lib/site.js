@@ -3,8 +3,10 @@ export const SITE = {
   tagline: 'A little happiness, beautifully delivered.',
   description:
     'Create a beautiful, personalized digital wish and share it with one link. No accounts, no app, no fuss.',
-  // Replace with your own inbox before launching.
-  email: 'hello@wishify.app',
+  email: 'edev.suraj@gmail.com',
+  donate: 'https://buymeacoffee.com/surajchauhan/',
+  upi: '8112773132',
+  moreApps: 'https://edevsuraj.github.io/explore-our-apps-and-extensions/',
   repo: 'https://github.com/DavidHDev/react-bits',
 }
 
