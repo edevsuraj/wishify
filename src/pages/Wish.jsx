@@ -118,13 +118,9 @@ export default function Wish() {
       />
 
       <div className="relative z-10 flex min-h-svh flex-col">
-        <main className="flex flex-1 justify-center px-0 sm:px-6">
-          <div className="w-full max-w-[62rem]">
-            <div
-              className="h-[calc(100svh-3.5rem)] overflow-hidden shadow-[0_30px_80px_-30px_rgba(0,0,0,0.55)] sm:h-[min(86svh,880px)] sm:rounded-[2rem] sm:ring-1 sm:ring-white/20"
-            >
-              <WishStage key={stageKey} wish={wish} />
-            </div>
+        <main className="relative flex min-h-0 flex-1">
+          <div className="absolute inset-0 overflow-hidden">
+            <WishStage key={stageKey} wish={wish} />
           </div>
         </main>
 
