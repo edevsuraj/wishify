@@ -23,7 +23,7 @@ export default function MinimalLuxury({ wish }) {
       <div aria-hidden="true" className="pointer-events-none absolute left-[6%] top-[8%] h-6 w-6 border-l border-t border-[#C9A45C]/50" />
       <div aria-hidden="true" className="pointer-events-none absolute bottom-[8%] right-[6%] h-6 w-6 border-b border-r border-[#C9A45C]/50" />
 
-      <div className="relative z-10 flex min-h-full flex-col justify-between px-[11%] py-[11%]">
+      <div data-wish-content className="relative z-10 flex min-h-full flex-col justify-between px-[11%] py-[11%]">
         <div className="flex items-center justify-between text-[#C9A45C]">
           <span className="wish-label uppercase tracking-[0.3em]">{occasionLabel}</span>
           <span className="wish-label uppercase tracking-[0.3em] text-[#8D806D]">No. 01</span>
@@ -61,7 +61,7 @@ export default function MinimalLuxury({ wish }) {
               </>
             )}
           </div>
-          <SparkleIcon className="h-5 w-5 shrink-0 animate-float text-[#C9A45C]" />
+          <SparkleIcon className="fx h-5 w-5 shrink-0 animate-float text-[#C9A45C]" />
         </div>
       </div>
     </div>

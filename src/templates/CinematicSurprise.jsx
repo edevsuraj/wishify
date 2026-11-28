@@ -56,7 +56,7 @@ export default function CinematicSurprise({ wish }) {
         <span>01:01</span>
       </div>
 
-      <div className="relative z-10 flex min-h-full flex-col items-center justify-center px-[12%] py-[13%] text-center">
+      <div data-wish-content className="relative z-10 flex min-h-full flex-col items-center justify-center px-[12%] py-[13%] text-center">
         <div className="flex items-center gap-3 text-[#D8B26A]">
           <span className="h-px w-8 bg-current opacity-50" />
           <span className="wish-label uppercase tracking-[0.34em]">Wishify presents</span>

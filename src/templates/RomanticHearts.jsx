@@ -43,7 +43,7 @@ export default function RomanticHearts({ wish }) {
         ))}
       </div>
 
-      <div className="relative z-10 flex min-h-full flex-col items-center justify-center px-[11%] py-[14%] text-center">
+      <div data-wish-content className="relative z-10 flex min-h-full flex-col items-center justify-center px-[11%] py-[14%] text-center">
         <div className="flex items-center gap-3 text-[#F6C6CC]/85">
           <span className="h-px w-8 bg-current opacity-40" />
           <HeartIcon className="h-3 w-3" />
@@ -74,7 +74,7 @@ export default function RomanticHearts({ wish }) {
 
         <div className="mt-7 flex items-center gap-3 text-[#F6A6B2]">
           <span className="h-px w-14 bg-gradient-to-r from-transparent to-current opacity-60" />
-          <HeartIcon className="h-4 w-4 animate-float" />
+          <HeartIcon className="fx h-4 w-4 animate-float" />
           <span className="h-px w-14 bg-gradient-to-l from-transparent to-current opacity-60" />
         </div>
 

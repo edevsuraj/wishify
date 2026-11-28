@@ -1,12 +1,13 @@
 import { useEffect, useRef } from 'react'
-import { ArrowUpRight, Heart } from 'lucide-react'
+import { motion, useReducedMotion } from 'framer-motion'
+import { Heart } from 'lucide-react'
 import { getTemplate } from '../../lib/templates.js'
 import { getOccasion } from '../../lib/occasions.js'
 import { HEART_BITS, TWINKLE_BITS, wishCopy } from '../../templates/parts.jsx'
 
 function Envelope({ accent, occasion }) {
   return (
-    <div className="relative mx-auto w-[clamp(9.5rem,44cqw,15rem)] animate-float-slow">
+    <div className="relative mx-auto w-[clamp(9.5rem,44cqw,15rem)] animate-float-slow fx transition-transform duration-500 group-hover:scale-[1.03]">
       <span
         aria-hidden="true"
         className="absolute inset-x-[12%] -bottom-3 h-4 rounded-full bg-black/25 blur-md"
@@ -43,6 +44,10 @@ function Envelope({ accent, occasion }) {
             clipPath: 'polygon(100% 0, 100% 100%, 0 100%)',
           }}
         />
+        <span
+          aria-hidden="true"
+          className="wish-sheen pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-white/25 blur-md"
+        />
         <div
           aria-hidden="true"
           className="absolute inset-0 opacity-[0.12]"
@@ -78,11 +83,22 @@ function Envelope({ accent, occasion }) {
 
 /** The "opening the surprise" screen, shown before the greeting is revealed. */
 export default function CoverScreen({ wish, onOpen }) {
+  const reduced = useReducedMotion()
   const copy = wishCopy(wish)
   const template = getTemplate(wish.template)
   const cover = template.cover
   const occasion = getOccasion(wish.occasion)
   const openRef = useRef(null)
+
+  const rise = (delay = 0) => ({
+    initial: reduced ? false : { opacity: 0, y: 14, filter: 'blur(4px)' },
+    animate: { opacity: 1, y: 0, filter: 'blur(0px)' },
+    transition: {
+      duration: reduced ? 0 : 0.6,
+      delay: reduced ? 0 : delay,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  })
 
   useEffect(() => {
     const timer = window.setTimeout(() => openRef.current?.focus({ preventScroll: true }), 500)
@@ -161,7 +177,8 @@ export default function CoverScreen({ wish, onOpen }) {
 
       <div className="relative z-10 flex min-h-full flex-col items-center justify-center px-[10%] py-[12%] text-center">
         {occasion && (
-          <span
+          <motion.span
+            {...rise(0.05)}
             className="mb-4 inline-flex items-center gap-2 rounded-full border px-2 py-1 pr-3.5 text-[0.56rem] font-semibold uppercase tracking-[0.2em] backdrop-blur-sm"
             style={{
               borderColor: `${cover.accent}44`,
@@ -173,48 +190,87 @@ export default function CoverScreen({ wish, onOpen }) {
               <img src={occasion.image} alt="" className="h-full w-full object-cover" loading="eager" />
             </span>
             {occasion.label}
-          </span>
+          </motion.span>
         )}
 
-        <span
+        <motion.span
+          {...rise(occasion ? 0.14 : 0.05)}
           className="wish-label uppercase"
           style={{ color: cover.muted, letterSpacing: '0.32em' }}
         >
           A little something for
-        </span>
+        </motion.span>
 
-        <h1 className="wish-name-sm mt-3 font-display font-medium" style={{ color: cover.ink }}>
+        <motion.h1
+          {...rise(occasion ? 0.22 : 0.13)}
+          className="wish-name-sm mt-3 font-display font-medium"
+          style={{ color: cover.ink }}
+        >
           {copy.recipient}
-        </h1>
+        </motion.h1>
 
-        <p className="mt-2 text-[0.8em] font-medium" style={{ color: cover.muted }}>
+        <motion.p
+          {...rise(occasion ? 0.3 : 0.21)}
+          className="mt-2 text-[0.8em] font-medium"
+          style={{ color: cover.muted }}
+        >
           {copy.sender ? `from ${copy.sender}` : 'sent with love'}
-        </p>
+        </motion.p>
 
-        <div className="mt-8">
-          <Envelope accent={cover.accent} occasion={occasion} />
-        </div>
+        <motion.div {...rise(0.38)} className="group mt-8">
+          <button
+            type="button"
+            onClick={onOpen}
+            aria-label="Open your surprise"
+            className="rounded-full outline-offset-8 transition-transform duration-500 hover:scale-[1.03] active:scale-[0.98]"
+          >
+            <Envelope accent={cover.accent} occasion={occasion} />
+          </button>
+        </motion.div>
 
-        <button
+        <motion.button
+          {...rise(0.46)}
           ref={openRef}
           type="button"
           onClick={onOpen}
-          className="group mt-9 inline-flex items-center gap-2.5 rounded-full px-6 py-3 text-[0.92rem] font-semibold shadow-[0_16px_34px_-16px_rgba(0,0,0,0.55)] transition-transform duration-300 hover:-translate-y-0.5 hover:scale-[1.02] active:translate-y-0"
+          whileHover={reduced ? undefined : { y: -2, scale: 1.02 }}
+          whileTap={reduced ? undefined : { scale: 0.97 }}
+          className="group relative mt-9 inline-flex items-center gap-2.5 overflow-hidden rounded-full px-6 py-3 text-[0.92rem] font-semibold shadow-[0_16px_34px_-16px_rgba(0,0,0,0.55)]"
           style={{ background: cover.button, color: cover.buttonText }}
         >
-          Open Your Surprise
-          <Heart className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" fill="currentColor" aria-hidden="true" />
-        </button>
+          <span
+            aria-hidden="true"
+            className="fx wish-halo pointer-events-none absolute -inset-1 rounded-full border"
+            style={{ borderColor: cover.button }}
+          />
+          <span
+            aria-hidden="true"
+            className="wish-sheen pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-white/25 blur-md"
+          />
+          <span className="relative">Open Your Surprise</span>
+          <Heart
+            className="relative h-4 w-4 transition-transform duration-300 group-hover:scale-110"
+            fill="currentColor"
+            aria-hidden="true"
+          />
+        </motion.button>
 
+        <motion.p
+          {...rise(0.54)}
+          className="mt-3 text-[0.62rem] uppercase tracking-[0.24em]"
+          style={{ color: cover.muted, opacity: 0.8 }}
+        >
+          or tap the envelope
+        </motion.p>
       </div>
 
-      <a
-        href="#wish-details"
+      <button
+        type="button"
+        onClick={onOpen}
         className="sr-only focus:not-sr-only focus:absolute focus:bottom-4 focus:left-1/2 focus:z-30 focus:-translate-x-1/2 focus:rounded-full focus:bg-white focus:px-4 focus:py-2 focus:text-xs"
       >
         Skip intro
-        <ArrowUpRight className="ml-1 inline h-3 w-3" aria-hidden="true" />
-      </a>
+      </button>
     </div>
   )
 }

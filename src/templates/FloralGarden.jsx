@@ -43,7 +43,7 @@ export default function FloralGarden({ wish }) {
         className="pointer-events-none absolute inset-[5.5%] rounded-[999px_999px_2rem_2rem] border border-[#557A5C]/15"
       />
 
-      <div className="relative z-10 flex min-h-full flex-col items-center justify-center px-[13%] py-[15%] text-center">
+      <div data-wish-content className="relative z-10 flex min-h-full flex-col items-center justify-center px-[13%] py-[15%] text-center">
         <div className="flex items-center gap-2 text-[#557A5C]">
           <SparkleIcon className="h-3 w-3" />
           <span className="wish-label font-medium uppercase tracking-[0.3em]">{occasionLabel}</span>

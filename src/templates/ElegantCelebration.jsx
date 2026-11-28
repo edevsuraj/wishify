@@ -55,7 +55,7 @@ export default function ElegantCelebration({ wish }) {
       <Flourish className="pointer-events-none absolute bottom-[3.1%] left-[3.1%] w-[16%] -scale-y-100 text-[#A9822F]" />
       <Flourish className="pointer-events-none absolute bottom-[3.1%] right-[3.1%] w-[16%] -scale-100 text-[#A9822F]" />
 
-      <div className="relative z-10 flex min-h-full flex-col items-center justify-center px-[12%] py-[14%] text-center">
+      <div data-wish-content className="relative z-10 flex min-h-full flex-col items-center justify-center px-[12%] py-[14%] text-center">
         <div className="flex items-center gap-2 text-[#A9822F]">
           <Diamond />
           <span className="wish-label font-medium uppercase">{occasionLabel}</span>

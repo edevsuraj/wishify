@@ -28,7 +28,7 @@ export default function CutePlayful({ wish }) {
         <span className="fx absolute bottom-[8%] left-[9%] animate-float text-2xl">👋</span>
       </div>
 
-      <div className="relative z-10 flex min-h-full flex-col items-center justify-center px-[9%] py-[12%] text-center">
+      <div data-wish-content className="relative z-10 flex min-h-full flex-col items-center justify-center px-[9%] py-[12%] text-center">
         <span className="inline-flex -rotate-3 items-center gap-2 rounded-full border-2 border-[#3A2A12] bg-white px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.18em] shadow-[3px_3px_0_#3A2A12]">
           {emoji} {occasionLabel} {emoji}
         </span>

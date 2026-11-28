@@ -47,7 +47,7 @@ export default function NeonCelebration({ wish }) {
       <div aria-hidden="true" className="pointer-events-none absolute inset-[3.5%] rounded-[1.6rem] border border-[#F45D9C]/35" style={{ boxShadow: 'inset 0 0 50px rgba(244,93,156,0.14), 0 0 32px rgba(108,240,225,0.08)' }} />
       <div aria-hidden="true" className="pointer-events-none absolute inset-[4.8%] rounded-[1.2rem] border border-[#6CF0E1]/15" />
 
-      <div className="relative z-10 flex min-h-full flex-col items-center justify-center px-[11%] py-[14%] text-center">
+      <div data-wish-content className="relative z-10 flex min-h-full flex-col items-center justify-center px-[11%] py-[14%] text-center">
         <span
           className="inline-flex items-center gap-2 rounded-full border border-[#6CF0E1]/50 px-4 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.3em] text-[#8DF7EA]"
           style={{ boxShadow: '0 0 22px rgba(108,240,225,0.25), inset 0 0 18px rgba(108,240,225,0.12)' }}

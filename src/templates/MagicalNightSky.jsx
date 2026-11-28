@@ -81,7 +81,7 @@ export default function MagicalNightSky({ wish }) {
       </svg>
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#060A18] to-transparent" />
 
-      <div className="relative z-10 flex min-h-full flex-col items-center justify-center px-[11%] py-[15%] text-center">
+      <div data-wish-content className="relative z-10 flex min-h-full flex-col items-center justify-center px-[11%] py-[15%] text-center">
         <div className="flex items-center gap-2 text-[#D8C98A]/90">
           <SparkleIcon className="h-3 w-3" />
           <span className="wish-label uppercase tracking-[0.32em]">{occasionLabel}</span>

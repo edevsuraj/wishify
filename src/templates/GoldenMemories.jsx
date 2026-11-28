@@ -69,7 +69,7 @@ export default function GoldenMemories({ wish }) {
         ))}
       </div>
 
-      <div className="relative z-10 flex min-h-full flex-col items-center justify-center px-[13%] py-[13%] text-center">
+      <div data-wish-content className="relative z-10 flex min-h-full flex-col items-center justify-center px-[13%] py-[13%] text-center">
         <p className="wish-label uppercase tracking-[0.32em] text-[#D8B47A]/80">A keepsake for</p>
 
         <div className="relative mt-5">

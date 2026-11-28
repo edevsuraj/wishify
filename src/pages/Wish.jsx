@@ -108,7 +108,7 @@ export default function Wish() {
 
   return (
     <div className="relative h-svh overflow-hidden" style={{ background: cover.bg }}>
-      <WishStage key={stageKey} wish={wish} />
+      <WishStage key={stageKey} wish={wish} interactive />
 
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 flex justify-center px-4 pb-3">
         <Link

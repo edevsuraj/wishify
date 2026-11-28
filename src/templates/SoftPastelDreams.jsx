@@ -45,7 +45,7 @@ export default function SoftPastelDreams({ wish }) {
 
       <div aria-hidden="true" className="pointer-events-none absolute inset-[4.5%] rounded-[2rem] border border-white/60" />
 
-      <div className="relative z-10 flex min-h-full flex-col items-center justify-center px-[12%] py-[14%] text-center">
+      <div data-wish-content className="relative z-10 flex min-h-full flex-col items-center justify-center px-[12%] py-[14%] text-center">
         <span className="flex items-center gap-2 text-[#8C6FB0]">
           <SparkleIcon className="h-3.5 w-3.5" />
           <span className="wish-label uppercase tracking-[0.3em]">a gentle {occasionLabel.toLowerCase()} wish</span>

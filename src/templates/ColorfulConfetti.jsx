@@ -36,7 +36,7 @@ export default function ColorfulConfetti({ wish }) {
         <span className="absolute -right-10 bottom-[12%] h-48 w-48 rounded-full bg-[#F2C14E]/30 blur-2xl" />
       </div>
 
-      <div className="relative z-10 flex min-h-full flex-col items-center justify-center px-[9%] py-[12%] text-center">
+      <div data-wish-content className="relative z-10 flex min-h-full flex-col items-center justify-center px-[9%] py-[12%] text-center">
         <span
           className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.2em] text-white shadow-soft"
           style={{ backgroundImage: 'linear-gradient(100deg, #D14A66, #E9A23B)' }}

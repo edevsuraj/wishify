@@ -16,7 +16,7 @@ export default function PaperCard({ wish }) {
       />
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-dot-grid opacity-[0.18]" />
 
-      <div className="relative z-10 flex min-h-full flex-col items-center justify-center px-[6%] py-[10%]">
+      <div data-wish-content className="relative z-10 flex min-h-full flex-col items-center justify-center px-[6%] py-[10%]">
         <div className="relative w-full max-w-[38rem] rotate-[-1.1deg]">
           {/* washi tape */}
           <span
