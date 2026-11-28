@@ -5,7 +5,6 @@ import { AlertTriangle, ArrowRight, Heart, MailOpen } from 'lucide-react'
 import usePageMeta from '../lib/usePageMeta.js'
 import { readWishHash } from '../lib/share.js'
 import { getTemplate } from '../lib/templates.js'
-import Logo from '../components/ui/Logo.jsx'
 import Button from '../components/ui/Button.jsx'
 import WishStage from '../components/greeting/WishStage.jsx'
 
@@ -14,15 +13,7 @@ function WishFallback({ result }) {
 
   return (
     <div className="flex min-h-svh flex-col bg-cream">
-      <header className="container-page flex h-[4.25rem] items-center justify-between">
-        <Logo />
-        <Button to="/create" variant="primary" size="sm">
-          Create a wish
-          <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
-        </Button>
-      </header>
-
-      <main className="flex flex-1 items-center justify-center px-5 py-14">
+      <main className="flex flex-1 items-center justify-center px-5 py-12">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -65,8 +56,11 @@ function WishFallback({ result }) {
         </motion.div>
       </main>
 
-      <footer className="container-page border-t border-ink/[0.06] py-6 text-center text-xs text-taupe">
-        Wishify · wishes travel inside their links, never through a server.
+      <footer className="container-page flex items-center justify-center gap-1.5 border-t border-ink/[0.06] py-5 text-xs text-taupe">
+        Created by
+        <Link to="/" className="font-semibold text-ink underline decoration-coral/40 underline-offset-4 hover:decoration-coral">
+          Wishify
+        </Link>
       </footer>
     </div>
   )
@@ -124,24 +118,6 @@ export default function Wish() {
       />
 
       <div className="relative z-10 flex min-h-svh flex-col">
-        <header className="flex h-14 items-center justify-between gap-3 px-4 sm:px-7">
-          <div className="rounded-full bg-white/85 px-3 py-1.5 shadow-soft backdrop-blur-sm">
-            <Logo />
-          </div>
-          <Link
-            to="/create"
-            className="inline-flex items-center gap-1.5 rounded-full border px-3.5 py-2 text-[0.7rem] font-semibold backdrop-blur-sm transition hover:opacity-80"
-            style={{
-              color: cover.ink,
-              borderColor: `${cover.ink}33`,
-              backgroundColor: `${cover.ink}14`,
-            }}
-          >
-            Make your own
-            <ArrowRight className="h-3 w-3" aria-hidden="true" />
-          </Link>
-        </header>
-
         <main className="flex flex-1 justify-center px-0 sm:px-6">
           <div className="w-full max-w-[62rem]">
             <div
@@ -151,6 +127,19 @@ export default function Wish() {
             </div>
           </div>
         </main>
+
+        <footer
+          className="flex items-center justify-center gap-1.5 px-4 pb-4 pt-3 text-[0.7rem] font-medium"
+          style={{ color: cover.ink, opacity: 0.72 }}
+        >
+          Created by
+          <Link
+            to="/"
+            className="font-semibold underline decoration-current/40 underline-offset-4 transition hover:opacity-80"
+          >
+            Wishify
+          </Link>
+        </footer>
       </div>
     </div>
   )

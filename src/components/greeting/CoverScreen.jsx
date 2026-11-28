@@ -206,9 +206,6 @@ export default function CoverScreen({ wish, onOpen }) {
           <Heart className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" fill="currentColor" aria-hidden="true" />
         </button>
 
-        <p className="mt-5 text-[0.6rem] uppercase tracking-[0.3em]" style={{ color: cover.muted }}>
-          Made with Wishify
-        </p>
       </div>
 
       <a
