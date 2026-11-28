@@ -47,7 +47,6 @@ import {
 } from '../lib/templates.js'
 import { buildWishUrl, sanitizeText } from '../lib/share.js'
 import { createSampleWish } from '../lib/sample.js'
-import { addRecentTemplate, clearDraft, readDraft, readRecentTemplates, saveDraft, EMPTY_DRAFT } from '../lib/session.js'
 import { copyText } from '../lib/clipboard.js'
 import Stepper from '../components/create/Stepper.jsx'
 import ShareResult from '../components/create/ShareResult.jsx'
@@ -72,31 +71,34 @@ const STEP_ERROR_KEYS = {
   4: ['occasion', 'template', 'recipient', 'message', 'sender', 'heading', 'relationship'],
 }
 
+const EMPTY_DRAFT = {
+  occasion: null,
+  template: null,
+  recipient: '',
+  sender: '',
+  heading: '',
+  relationship: '',
+  message: '',
+  animation: 'full',
+  lang: 'en',
+}
+
 function buildInitialWish(params) {
-  const draft = readDraft()
-  const base = { ...EMPTY_DRAFT, ...(draft || {}) }
   const queryOccasion = params.get('occasion')
   const queryTemplate = params.get('template')
 
-  const occasion = OCCASION_IDS.includes(queryOccasion)
-    ? queryOccasion
-    : OCCASION_IDS.includes(base.occasion)
-      ? base.occasion
-      : null
+  const occasion = OCCASION_IDS.includes(queryOccasion) ? queryOccasion : null
 
   const template = TEMPLATE_IDS.includes(queryTemplate)
     ? queryTemplate
-    : TEMPLATE_IDS.includes(base.template)
-      ? base.template
-      : occasion
-        ? getOccasion(occasion)?.defaultTemplate || getTemplatesForOccasion(occasion)[0]?.id || null
-        : null
+    : occasion
+      ? getOccasion(occasion)?.defaultTemplate || getTemplatesForOccasion(occasion)[0]?.id || null
+      : null
 
   return {
-    ...base,
+    ...EMPTY_DRAFT,
     occasion,
     template,
-    animation: ANIMATION_OPTIONS.some((option) => option.id === base.animation) ? base.animation : 'full',
   }
 }
 
@@ -217,12 +219,12 @@ export default function Create() {
   const [introMode, setIntroMode] = useState(false)
   const [replayKey, setReplayKey] = useState(0)
   const [suggestionSeed, setSuggestionSeed] = useState(0)
-  const [recent, setRecent] = useState(() => readRecentTemplates())
   const [group, setGroup] = useState(() => getOccasion(wish.occasion)?.group || 'everyday')
   const [query, setQuery] = useState('')
   const [hoverTemplate, setHoverTemplate] = useState(null)
 
   const firstStepRender = useRef(true)
+  const clearedParamsRef = useRef(false)
   const occasion = getOccasion(wish.occasion)
   const occasionGroup = getOccasionGroup(wish.occasion)
   const language = wish.lang === 'hi' ? 'hi' : 'en'
@@ -297,7 +299,6 @@ export default function Create() {
 
   const selectTemplate = (id) => {
     update('template', id)
-    setRecent(addRecentTemplate(id))
   }
 
   const copyCurrentMessage = async () => {
@@ -334,28 +335,15 @@ export default function Create() {
         ? 4
         : 3
 
-  // Keep the URL shareable within the session: occasion, design and step.
+  // Deep links may open a specific design, but nothing is stored between visits.
+  // Strip those params once so a refresh always starts with a clean page.
   useEffect(() => {
-    setParams(
-      (prev) => {
-        const next = new URLSearchParams(prev)
-        if (wish.occasion) next.set('occasion', wish.occasion)
-        else next.delete('occasion')
-        if (wish.template) next.set('template', wish.template)
-        else next.delete('template')
-        next.set('step', String(step))
-        if (next.toString() === prev.toString()) return prev
-        return next
-      },
-      { replace: true },
-    )
-  }, [wish.occasion, wish.template, step, setParams])
-
-  // Draft persistence (session only, for this tab).
-  useEffect(() => {
-    const timer = window.setTimeout(() => saveDraft(wish), 350)
-    return () => window.clearTimeout(timer)
-  }, [wish])
+    if (clearedParamsRef.current) return
+    clearedParamsRef.current = true
+    if (params.has('occasion') || params.has('template') || params.has('step')) {
+      setParams({}, { replace: true })
+    }
+  }, [params, setParams])
 
   useEffect(() => {
     if (firstStepRender.current) {
@@ -391,7 +379,6 @@ export default function Create() {
       return
     }
     setErrors({})
-    if (wish.template) setRecent(addRecentTemplate(wish.template))
     setStep((current) => Math.min(4, current + 1))
   }
 
@@ -411,13 +398,11 @@ export default function Create() {
     }
 
     setGenerated({ url })
-    setRecent(addRecentTemplate(wish.template))
     setStep(4)
     toast('Your wish is ready. The link is waiting below.', 'success')
   }
 
   const resetAll = () => {
-    clearDraft()
     setWish({ ...EMPTY_DRAFT })
     setErrors({})
     setGenerated(null)
@@ -425,7 +410,6 @@ export default function Create() {
     setConfirmReset(false)
     setIntroMode(false)
     setReplayKey((key) => key + 1)
-    setRecent(readRecentTemplates())
     toast('Fresh start. Who’s the lucky person?', 'info')
   }
 
@@ -576,10 +560,6 @@ export default function Create() {
   const renderStepTwo = () => {
     const ordered = getTemplatesForOccasion(wish.occasion)
     const recommendedIds = new Set(suggestedTemplates(wish.occasion).map((item) => item.id))
-    const recentTemplates = recent
-      .map((id) => TEMPLATE_IDS.includes(id) && getTemplate(id))
-      .filter((item) => item && item.id !== '__fallback__')
-      .slice(0, 4)
     const previewTemplate = getTemplate(hoverTemplate || wish.template || ordered[0]?.id)
     const previewSample = createSampleWish(wish.occasion || 'birthday', previewTemplate.id)
     const previewOccasion = getOccasion(wish.occasion)
@@ -608,29 +588,6 @@ export default function Create() {
             Surprise me
           </button>
         </div>
-
-        {recentTemplates.length > 0 && (
-          <div className="mt-5 rounded-2xl border border-ink/[0.06] bg-cream/70 p-3">
-            <p className="label-tiny">Recently used this session</p>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {recentTemplates.map((item) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => selectTemplate(item.id)}
-                  className={`flex items-center gap-2 rounded-xl border bg-white px-2 py-1.5 text-left text-[0.7rem] font-medium transition hover:-translate-y-0.5 hover:border-coral/30 ${
-                    wish.template === item.id ? 'border-coral/40 text-coral-deep' : 'border-ink/10 text-cocoa'
-                  }`}
-                >
-                  <span className="w-6 overflow-hidden rounded ring-1 ring-ink/10">
-                    <TemplateThumb template={item} />
-                  </span>
-                  {item.name}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
 
         <div className="mt-5 grid gap-5 xl:grid-cols-[1fr_286px]">
           <div>
@@ -994,7 +951,7 @@ export default function Create() {
             </div>
           </div>
           <p className="mt-3 text-center text-[0.68rem] leading-relaxed text-taupe">
-            Updates instantly. Your words and chosen design are saved in this tab.
+            Updates instantly as you write and choose a design. Refreshing starts fresh.
           </p>
         </div>
       </div>
@@ -1238,7 +1195,6 @@ export default function Create() {
                 step > 1 ? 'self-end -mt-9 sm:mt-0 sm:self-auto' : 'self-start md:self-auto'
               }`}
             >
-              <span className="hidden text-[0.68rem] text-taupe sm:inline">Draft saved in this tab</span>
               <button
                 type="button"
                 onClick={() => (hasContent ? setConfirmReset(true) : resetAll())}
@@ -1293,7 +1249,7 @@ export default function Create() {
           <div className="sticky bottom-3 z-30 mt-4 flex items-center justify-between gap-3 rounded-2xl border border-ink/10 bg-paper/95 p-2.5 shadow-lift backdrop-blur-md sm:px-4">
             <div className="hidden items-center gap-2 pl-2 text-[0.7rem] text-taupe sm:flex">
               <Lock className="h-3.5 w-3.5 text-sage" aria-hidden="true" />
-              Step {step} of 4 · saved in this tab
+              Step {step} of 4
             </div>
             <div className="flex flex-1 items-center justify-between gap-2 sm:flex-none">
               <Button variant="ghost" size="md" onClick={handleBack} disabled={step === 1}>
@@ -1339,8 +1295,8 @@ export default function Create() {
             Start with a clean page?
           </h2>
           <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-cocoa">
-            This clears the draft saved in this tab. Any link you’ve already generated and shared
-            will keep working.
+            This clears everything on this page. Any link you’ve already generated and shared will
+            keep working.
           </p>
           <div className="mt-6 flex flex-col justify-center gap-2 sm:flex-row">
             <Button variant="ghost" onClick={() => setConfirmReset(false)}>

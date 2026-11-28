@@ -105,13 +105,14 @@ export default function Privacy() {
 
           <LegalSection title="5. Cookies and local storage">
             <p>
-              Wishify does not set advertising or tracking cookies by default. We use browser
-              storage in two small, functional ways:
+              Wishify does not set advertising or tracking cookies by default. Nothing you type
+              in the creator is saved in your browser — refreshing the page starts with a clean
+              form.
             </p>
             <BulletList
               items={[
-                'sessionStorage keeps a draft of the wish you are currently creating, so switching designs or steps does not lose your words. It is cleared when you close the tab, start a new wish, or clear site data.',
-                'localStorage stores only your ad-consent choice (and, in the current session, recently used designs). It is a preference, not a tracking identifier.',
+                'localStorage stores only your ad-consent choice. It is a preference, not a tracking identifier.',
+                'No wish draft, recipient name, message, or recently used design is kept in sessionStorage or localStorage.',
               ]}
             />
             <p>
@@ -126,7 +127,7 @@ export default function Privacy() {
                 'Share the link only with the person (or people) you intend to see the wish. Possession of the link is the only access control.',
                 'We cannot edit, delete, recall, or track a wish after it is shared. The content is part of the link, not a record we control.',
                 'If you send a wish to the wrong person, the practical remedy is to ask them not to share it further; we cannot revoke it.',
-                'You can clear the locally saved draft at any time using “Start fresh” in the creator, or by clearing site data in your browser.',
+                'Refreshing the creator or using “Start fresh” clears the page at any time.',
                 'If a link is clipped by a chat app, the recipient may not be able to open it. Sending a shorter message reduces this risk.',
               ]}
             />

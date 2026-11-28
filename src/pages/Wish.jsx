@@ -107,35 +107,17 @@ export default function Wish() {
   const cover = template.cover
 
   return (
-    <div className="relative min-h-svh overflow-x-hidden" style={{ background: cover.bg }}>
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            'radial-gradient(80% 60% at 50% -10%, rgba(255,255,255,0.14), transparent 60%), linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.18))',
-        }}
-      />
+    <div className="relative h-svh overflow-hidden" style={{ background: cover.bg }}>
+      <WishStage key={stageKey} wish={wish} />
 
-      <div className="relative z-10 flex min-h-svh flex-col">
-        <main className="relative flex min-h-0 flex-1">
-          <div className="absolute inset-0 overflow-hidden">
-            <WishStage key={stageKey} wish={wish} />
-          </div>
-        </main>
-
-        <footer
-          className="flex items-center justify-center gap-1.5 px-4 pb-4 pt-3 text-[0.7rem] font-medium"
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 flex justify-center px-4 pb-3">
+        <Link
+          to="/"
+          className="pointer-events-auto text-[0.7rem] font-medium underline decoration-current/40 underline-offset-4 transition hover:opacity-80"
           style={{ color: cover.ink, opacity: 0.72 }}
         >
-          Created by
-          <Link
-            to="/"
-            className="font-semibold underline decoration-current/40 underline-offset-4 transition hover:opacity-80"
-          >
-            Wishify
-          </Link>
-        </footer>
+          Created by Wishify
+        </Link>
       </div>
     </div>
   )
