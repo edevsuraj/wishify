@@ -35,8 +35,8 @@ export default function FloralGarden({ wish }) {
 
       <BotanicalCorner className="pointer-events-none absolute left-[-2%] top-[-1%] w-[30%] text-[#6E8A70] opacity-70" />
       <BotanicalCorner className="pointer-events-none absolute right-[-2%] top-[-1%] w-[30%] -scale-x-100 text-[#6E8A70] opacity-70" />
-      <BotanicalCorner className="pointer-events-none absolute bottom-[-1%] left-[-2%] w-[26%] -scale-y-100 text-[#8FA98F] opacity-60" />
-      <BotanicalCorner className="pointer-events-none absolute bottom-[-1%] right-[-2%] w-[26%] -scale-100 text-[#8FA98F] opacity-60" />
+      <BotanicalCorner className="pointer-events-none absolute bottom-0 left-[-2%] w-[26%] -scale-y-100 text-[#8FA98F] opacity-60" />
+      <BotanicalCorner className="pointer-events-none absolute bottom-0 right-[-2%] w-[26%] -scale-100 text-[#8FA98F] opacity-60" />
 
       <div
         aria-hidden="true"
