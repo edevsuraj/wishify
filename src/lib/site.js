@@ -5,7 +5,7 @@ export const SITE = {
     'Create a beautiful, personalized digital wish and share it with one link. No accounts, no app, no fuss.',
   email: 'edev.suraj@gmail.com',
   donate: 'https://buymeacoffee.com/surajchauhan/',
-  upi: '8112773132',
+  upi: '8112773132@ptsbi',
   upiName: 'Suraj Chauhan',
   moreApps: 'https://edevsuraj.github.io/explore-our-apps-and-extensions/',
   repo: 'https://github.com/DavidHDev/react-bits',
