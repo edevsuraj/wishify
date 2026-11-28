@@ -23,9 +23,11 @@ export default {
         sage: '#7E9A83',
       },
       fontFamily: {
-        sans: ['Outfit', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['Poppins', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         display: ['Fraunces', 'Georgia', 'ui-serif', 'serif'],
+        elegant: ['"Cormorant Garamond"', 'Fraunces', 'Georgia', 'ui-serif', 'serif'],
         script: ['Caveat', 'cursive'],
+        fancy: ['"Dancing Script"', 'Caveat', 'cursive'],
         romantic: ['"Great Vibes"', 'cursive'],
       },
       boxShadow: {
