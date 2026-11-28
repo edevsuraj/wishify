@@ -95,11 +95,13 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.06 }}
-                className="mt-6 font-elegant text-[2.65rem] font-medium leading-[1.03] tracking-[-0.01em] text-ink sm:text-6xl lg:text-[4.25rem]"
+                className="mt-6 font-elegant text-[2.25rem] font-semibold leading-[1.1] tracking-[-0.03em] text-ink sm:text-[3rem] lg:text-[3.5rem]"
               >
                 Make Someone’s Day
                 <span className="relative mt-1 block">
-                  <GradientText speed={9}>Extra Special</GradientText>{' '}
+                  <GradientText className="font-fancy font-semibold tracking-normal" speed={9}>
+                    Extra Special
+                  </GradientText>{' '}
                   <HeartMark />
                   <svg
                     aria-hidden="true"

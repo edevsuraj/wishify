@@ -29,6 +29,7 @@
 
   body {
     @apply bg-cream font-sans text-ink antialiased;
+    font-optical-sizing: auto;
     text-rendering: optimizeLegibility;
     overflow-x: hidden;
   }
@@ -52,8 +53,8 @@
   h2,
   h3,
   h4 {
-    @apply font-elegant;
-    font-variation-settings: 'opsz' 72;
+    @apply font-display;
+    text-wrap: balance;
   }
 
   button,
@@ -284,7 +285,7 @@
 
   .drop-cap::first-letter {
     float: left;
-    font-family: 'Fraunces', Georgia, serif;
+    font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
     font-size: 3.1em;
     line-height: 0.82;
     padding-right: 0.12em;

@@ -23,12 +23,12 @@ export default {
         sage: '#7E9A83',
       },
       fontFamily: {
-        sans: ['Poppins', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        display: ['Fraunces', 'Georgia', 'ui-serif', 'serif'],
-        elegant: ['"Cormorant Garamond"', 'Fraunces', 'Georgia', 'ui-serif', 'serif'],
+        sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        display: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        elegant: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         script: ['Caveat', 'cursive'],
         fancy: ['"Dancing Script"', 'Caveat', 'cursive'],
-        romantic: ['"Great Vibes"', 'cursive'],
+        romantic: ['"Dancing Script"', 'Caveat', 'cursive'],
       },
       boxShadow: {
         soft: '0 1px 2px rgba(36,28,24,0.04), 0 12px 32px -12px rgba(36,28,24,0.16)',
