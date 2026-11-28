@@ -52,7 +52,7 @@
   h2,
   h3,
   h4 {
-    @apply font-display;
+    @apply font-elegant;
     font-variation-settings: 'opsz' 72;
   }
 
@@ -120,6 +120,18 @@
 
   .label-tiny {
     @apply text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-taupe;
+  }
+
+  .section-title {
+    @apply font-elegant text-[2rem] font-medium leading-[1.1] tracking-[-0.005em] text-ink sm:text-[2.7rem];
+  }
+
+  .section-lead {
+    @apply mt-4 max-w-xl text-[0.98rem] leading-relaxed text-cocoa;
+  }
+
+  .script-note {
+    @apply font-fancy text-[1.55rem] leading-none text-coral-deep sm:text-[1.8rem];
   }
 
   /* ------- greeting canvas: everything scales with its own width ------- */

@@ -14,7 +14,7 @@ export default function Logo({ to = '/', tone = 'dark', className = '', compact 
         <span className="absolute -right-0.5 -top-0.5 h-1.5 w-1.5 rounded-full bg-gold" aria-hidden="true" />
       </span>
       {!compact && (
-        <span className={`font-display text-[1.32rem] font-semibold leading-none tracking-tight ${text}`}>
+        <span className={`font-elegant text-[1.42rem] font-semibold leading-none tracking-[-0.01em] ${text}`}>
           Wishify
         </span>
       )}

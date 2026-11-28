@@ -65,7 +65,7 @@ export default function ShareResult({ wish, url, onEdit, onCreateAnother }) {
           <span className="h-px w-6 bg-sage/50" />
           Link ready
         </p>
-        <h2 className="mt-3 font-display text-3xl font-semibold tracking-[-0.02em] text-ink sm:text-4xl">
+        <h2 className="mt-3 font-elegant text-3xl font-medium tracking-[-0.005em] text-ink sm:text-4xl">
           Your wish is ready to travel.
         </h2>
         <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-cocoa">

@@ -1,5 +1,6 @@
 export const SITE = {
   name: 'Wishify',
+  url: 'https://wishify-ten.vercel.app',
   tagline: 'A little happiness, beautifully delivered.',
   description:
     'Create a beautiful, personalized digital wish and share it with one link. No accounts, no app, no fuss.',
@@ -10,6 +11,9 @@ export const SITE = {
   moreApps: 'https://edevsuraj.github.io/explore-our-apps-and-extensions/',
   repo: 'https://github.com/DavidHDev/react-bits',
 }
+
+/** Host without the protocol, for showing example links in the UI. */
+export const SITE_HOST = SITE.url.replace(/^https?:\/\//, '')
 
 /** Opens a UPI app with the payee prefilled; falls back to a browser prompt on desktop. */
 export const UPI_LINK = `upi://pay?${[

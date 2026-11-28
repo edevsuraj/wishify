@@ -12,7 +12,7 @@ export default function PageHeader({ eyebrow, title, lead, children, align = 'le
           </p>
         )}
         <h1
-          className={`mt-4 font-display text-[2.4rem] font-semibold leading-[1.06] tracking-[-0.025em] text-ink sm:text-5xl ${
+          className={`mt-4 font-elegant text-[2.4rem] font-medium leading-[1.06] tracking-[-0.01em] text-ink sm:text-5xl ${
             align === 'center' ? 'max-w-3xl' : 'max-w-4xl'
           }`}
         >

@@ -25,10 +25,8 @@ export default function CulturalOccasions() {
               <span className="h-px w-6 bg-coral/50" />
               Faith, culture &amp; celebration
             </p>
-            <h2 className="mt-4 max-w-xl font-display text-3xl font-semibold tracking-[-0.02em] text-ink sm:text-[2.7rem]">
-              Religious &amp; Cultural Wishes
-            </h2>
-            <p className="mt-4 max-w-xl text-[0.98rem] leading-relaxed text-cocoa">
+            <h2 className="section-title mt-4 max-w-xl">Religious &amp; Cultural Wishes</h2>
+            <p className="section-lead max-w-xl">
               Diwali diyas, Eid lanterns, Christmas lights, Vaisakhi harvests and more. Every
               tradition is presented with care — choose the occasion that belongs to you, write in
               your own language, and send something that feels personal.

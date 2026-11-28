@@ -2,6 +2,7 @@ import { ArrowRight, Palette, PartyPopper, Send } from 'lucide-react'
 import AnimatedContent from '../react-bits/AnimatedContent.jsx'
 import Button from '../ui/Button.jsx'
 import { OCCASION_MAP } from '../../lib/occasions.js'
+import { SITE_HOST } from '../../lib/site.js'
 
 const MINI = ['birthday', 'anniversary', 'good-night']
 
@@ -50,7 +51,7 @@ const STEPS = [
     extra: (
       <div className="flex items-center gap-2 rounded-xl border border-ink/10 bg-white px-2.5 py-2">
         <span className="h-1.5 w-1.5 rounded-full bg-[#25D366]" />
-        <span className="truncate text-[0.68rem] font-medium text-taupe">wishify.app/wish/#aGVsbG8…</span>
+        <span className="truncate text-[0.68rem] font-medium text-taupe">{`${SITE_HOST}/wish/#aGVsbG8…`}</span>
       </div>
     ),
   },
@@ -68,9 +69,10 @@ export default function HowItWorks() {
             How it works
             <span className="h-px w-6 bg-coral/50" />
           </p>
-          <h2 className="mt-4 text-3xl font-semibold tracking-[-0.02em] text-ink sm:text-[2.6rem]">
+          <h2 className="mt-4 font-elegant text-3xl font-medium tracking-[-0.005em] text-ink sm:text-[2.6rem]">
             Three little steps to a big smile
           </h2>
+          <p className="script-note mt-3">simple, thoughtful, and a little magical</p>
           <p className="mx-auto mt-4 max-w-xl text-[0.98rem] leading-relaxed text-cocoa">
             No apps to install, no accounts to create, no waiting for a text back. Just a thoughtful
             five-minute detour that someone will remember.
@@ -91,7 +93,7 @@ export default function HowItWorks() {
                     <span className="grid h-12 w-12 place-items-center rounded-2xl bg-ink text-cream shadow-soft transition-transform duration-300 group-hover:-rotate-3">
                       <Icon className="h-5 w-5" aria-hidden="true" />
                     </span>
-                    <span className="font-display text-[2.4rem] font-light leading-none text-ink/10">{step.number}</span>
+                    <span className="font-fancy text-[2.9rem] font-semibold leading-none text-ink/15">{step.number}</span>
                   </div>
                   <h3 className="mt-6 text-xl font-semibold tracking-tight text-ink">{step.title}</h3>
                   <p className="mt-2 text-[0.9rem] leading-relaxed text-cocoa">{step.body}</p>

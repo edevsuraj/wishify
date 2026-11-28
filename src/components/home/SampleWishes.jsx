@@ -85,9 +85,9 @@ export default function SampleWishes() {
             <span className="h-px w-6 bg-coral/50" />
             Words worth borrowing
           </p>
-          <h2 className="mt-4 text-3xl font-semibold tracking-[-0.02em] text-ink sm:text-[2.7rem] sm:leading-[1.1]">
+          <h2 className="mt-4 font-elegant text-3xl font-medium tracking-[-0.005em] text-ink sm:text-[2.7rem] sm:leading-[1.1]">
             When you can’t find the words,
-            <span className="block font-display italic text-coral-deep">start with one of ours.</span>
+            <span className="block font-elegant italic text-coral-deep">start with one of ours.</span>
           </h2>
           <p className="mt-5 max-w-md text-[0.98rem] leading-relaxed text-cocoa">
             Real words, written for real feelings. Borrow one, change a line, or use it as a

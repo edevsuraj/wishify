@@ -16,10 +16,8 @@ export default function Occasions() {
               <span className="h-px w-6 bg-coral/50" />
               Real moments, beautifully sent
             </p>
-            <h2 className="mt-4 text-3xl font-semibold tracking-[-0.02em] text-ink sm:text-[2.6rem]">
-              Every occasion has a feeling
-            </h2>
-            <p className="mt-4 max-w-xl text-[0.98rem] leading-relaxed text-cocoa">
+            <h2 className="section-title mt-4">Every occasion has a feeling</h2>
+            <p className="section-lead">
               Twelve starting points, from the obvious to the just-because. Pick one and we’ll
               suggest designs and words that fit.
             </p>

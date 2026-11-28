@@ -1,4 +1,5 @@
 import { OCCASION_IDS } from './occasions.js'
+import { SITE } from './site.js'
 import { DEFAULT_TEMPLATE_ID, TEMPLATE_IDS } from './templates.js'
 
 /** Hard limits keep links short, QR codes scannable, and decoding safe. */
@@ -225,9 +226,16 @@ export function getWishPath(wish) {
 }
 
 export function buildWishUrl(wish) {
-  if (typeof window === 'undefined') return getWishPath(wish)
+  const path = getWishPath(wish)
+  if (typeof window === 'undefined') return `${SITE.url}${path}`
+
+  // Local development should still produce localhost links; everywhere else
+  // uses the configured public site URL so shared links stay canonical.
+  const { origin, hostname } = window.location
+  const isLocal = hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '[::1]'
+  const base = isLocal ? origin : SITE.url
   const basePath = (import.meta.env.BASE_URL || '/').replace(/\/$/, '')
-  return `${window.location.origin}${basePath}/wish/#${encodeWish(wish)}`
+  return `${base}${basePath}${path}`
 }
 
 export function shareMessage(wish) {

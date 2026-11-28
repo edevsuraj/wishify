@@ -11,6 +11,9 @@ import ClickSpark from '../react-bits/ClickSpark.jsx'
 import CountUp from '../react-bits/CountUp.jsx'
 import TemplateThumb from '../templates/TemplateThumb.jsx'
 import { getTemplate } from '../../lib/templates.js'
+import { OCCASION_MAP } from '../../lib/occasions.js'
+
+const QUICK_OCCASIONS = ['birthday', 'anniversary', 'love', 'diwali']
 
 function HeartMark() {
   return (
@@ -92,7 +95,7 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.06 }}
-                className="mt-6 font-display text-[2.65rem] font-semibold leading-[1.03] tracking-[-0.025em] text-ink sm:text-6xl lg:text-[4.25rem]"
+                className="mt-6 font-elegant text-[2.65rem] font-medium leading-[1.03] tracking-[-0.01em] text-ink sm:text-6xl lg:text-[4.25rem]"
               >
                 Make Someone’s Day
                 <span className="relative mt-1 block">
@@ -139,10 +142,43 @@ export default function Hero() {
               </motion.div>
 
               <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.26 }}
+                className="mt-7"
+              >
+                <p className="text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-taupe">
+                  Or start with a moment
+                </p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {QUICK_OCCASIONS.map((id) => {
+                    const occasion = OCCASION_MAP[id]
+                    if (!occasion) return null
+                    return (
+                      <Link
+                        key={id}
+                        to={`/create?occasion=${id}`}
+                        className="group inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white/70 py-1 pl-1 pr-3.5 text-[0.78rem] font-medium text-cocoa shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:border-coral/30 hover:bg-white hover:text-ink"
+                      >
+                        <span className="h-7 w-7 overflow-hidden rounded-full ring-1 ring-black/5">
+                          <img
+                            src={occasion.image}
+                            alt=""
+                            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                          />
+                        </span>
+                        {occasion.label}
+                      </Link>
+                    )
+                  })}
+                </div>
+              </motion.div>
+
+              <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.32 }}
-                className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 text-[0.78rem] font-medium text-taupe"
+                transition={{ duration: 0.8, delay: 0.36 }}
+                className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2 text-[0.78rem] font-medium text-taupe"
               >
                 <span className="inline-flex items-center gap-1.5">
                   <Link2 className="h-3.5 w-3.5 text-sage" aria-hidden="true" />

@@ -12,16 +12,12 @@ import {
   Languages,
   Lock,
   Maximize2,
-  Monitor,
   Palette,
-  PencilLine,
-  Play,
   Plus,
   Quote,
   RotateCcw,
   Search,
   Shuffle,
-  Smartphone,
   Sparkles,
   Wand2,
   X,
@@ -34,7 +30,6 @@ import {
   OCCASIONS,
   OCCASIONS_BY_GROUP,
   getOccasion,
-  getOccasionGroup,
   headingsFor,
   searchOccasions,
   suggestionsFor,
@@ -68,7 +63,6 @@ const STEP_ERROR_KEYS = {
   1: ['occasion'],
   2: ['template'],
   3: ['recipient', 'message', 'sender', 'heading', 'relationship'],
-  4: ['occasion', 'template', 'recipient', 'message', 'sender', 'heading', 'relationship'],
 }
 
 const EMPTY_DRAFT = {
@@ -104,13 +98,13 @@ function buildInitialWish(params) {
 
 function resolveStartStep(wish, params) {
   const completed = wish.recipient.trim().length > 0 && wish.message.trim().length > 0
-  const maxAllowed = !wish.occasion ? 1 : !wish.template ? 2 : completed ? 4 : 3
+  const maxAllowed = !wish.occasion ? 1 : !wish.template ? 2 : 3
   const requested = Number.parseInt(params.get('step') || '', 10)
 
-  if ([1, 2, 3, 4].includes(requested)) return Math.min(requested, maxAllowed)
+  if ([1, 2, 3].includes(requested)) return Math.min(requested, maxAllowed)
   if (params.has('occasion') && !params.has('template') && !completed) return Math.min(2, maxAllowed)
   if (params.has('template') && wish.occasion) return Math.min(3, maxAllowed)
-  if (completed && wish.occasion && wish.template) return 4
+  if (completed && wish.occasion && wish.template) return 3
   if (!wish.occasion) return 1
   if (!wish.template) return 2
   return 3
@@ -214,9 +208,7 @@ export default function Create() {
   const [errors, setErrors] = useState({})
   const [generated, setGenerated] = useState(null)
   const [confirmReset, setConfirmReset] = useState(false)
-  const [device, setDevice] = useState('mobile')
   const [showFull, setShowFull] = useState(false)
-  const [introMode, setIntroMode] = useState(false)
   const [replayKey, setReplayKey] = useState(0)
   const [suggestionSeed, setSuggestionSeed] = useState(0)
   const [group, setGroup] = useState(() => getOccasion(wish.occasion)?.group || 'everyday')
@@ -226,7 +218,6 @@ export default function Create() {
   const firstStepRender = useRef(true)
   const clearedParamsRef = useRef(false)
   const occasion = getOccasion(wish.occasion)
-  const occasionGroup = getOccasionGroup(wish.occasion)
   const language = wish.lang === 'hi' ? 'hi' : 'en'
   const template = wish.template ? getTemplate(wish.template) : null
 
@@ -331,9 +322,7 @@ export default function Create() {
     ? 1
     : !wish.template
       ? 2
-      : wish.recipient.trim() && wish.message.trim()
-        ? 4
-        : 3
+      : 3
 
   // Deep links may open a specific design, but nothing is stored between visits.
   // Strip those params once so a refresh always starts with a clean page.
@@ -379,7 +368,7 @@ export default function Create() {
       return
     }
     setErrors({})
-    setStep((current) => Math.min(4, current + 1))
+    setStep((current) => Math.min(3, current + 1))
   }
 
   const handleGenerate = () => {
@@ -398,7 +387,7 @@ export default function Create() {
     }
 
     setGenerated({ url })
-    setStep(4)
+    setStep(3)
     toast('Your wish is ready. The link is waiting below.', 'success')
   }
 
@@ -408,7 +397,6 @@ export default function Create() {
     setGenerated(null)
     setStep(1)
     setConfirmReset(false)
-    setIntroMode(false)
     setReplayKey((key) => key + 1)
     toast('Fresh start. Who’s the lucky person?', 'info')
   }
@@ -439,8 +427,8 @@ export default function Create() {
       <div>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <p className="label-tiny">Step 1 of 4</p>
-            <h2 className="mt-1 font-display text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+            <p className="label-tiny">Step 1 of 3</p>
+            <h2 className="mt-1 font-elegant text-2xl font-medium tracking-tight text-ink sm:text-3xl">
               What are we celebrating?
             </h2>
             <p className="mt-2 max-w-xl text-sm leading-relaxed text-cocoa">
@@ -569,8 +557,8 @@ export default function Create() {
       <div>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <p className="label-tiny">Step 2 of 4</p>
-            <h2 className="mt-1 font-display text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+            <p className="label-tiny">Step 2 of 3</p>
+            <h2 className="mt-1 font-elegant text-2xl font-medium tracking-tight text-ink sm:text-3xl">
               Pick a look that feels like them.
             </h2>
             <p className="mt-2 max-w-xl text-sm leading-relaxed text-cocoa">
@@ -666,13 +654,13 @@ export default function Create() {
     <div>
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <p className="label-tiny">Step 3 of 4</p>
-          <h2 className="mt-1 font-display text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
-            Now the words that matter.
+          <p className="label-tiny">Step 3 of 3</p>
+          <h2 className="mt-1 font-elegant text-2xl font-medium tracking-tight text-ink sm:text-3xl">
+            The words, then the link.
           </h2>
           <p className="mt-2 max-w-xl text-sm leading-relaxed text-cocoa">
-            Write it the way you’d say it. The preview updates as you type, so you can watch it come
-            together.
+            Write it the way you’d say it. The preview updates live — and you can send it the moment
+            you’re happy.
           </p>
         </div>
         <div className="flex items-center gap-2 self-start">
@@ -940,225 +928,43 @@ export default function Create() {
 
         <div className="lg:sticky lg:top-24 lg:self-start">
           <div className="rounded-[1.6rem] border border-ink/[0.08] bg-[#EAE1D4] p-2.5 shadow-soft">
-            <div className="mb-2 flex items-center justify-between px-1.5">
+            <div className="mb-2 flex items-center justify-between gap-2 px-1.5">
               <span className="label-tiny">Live preview</span>
-              <span className="max-w-[60%] truncate text-[0.65rem] font-medium text-taupe">
-                {template?.name || 'Choose a design'}
-              </span>
+              <div className="flex items-center gap-1">
+                <button
+                  type="button"
+                  onClick={() => setReplayKey((key) => key + 1)}
+                  className="inline-flex items-center gap-1 rounded-full px-2 py-1 text-[0.62rem] font-semibold text-cocoa transition hover:bg-white hover:text-ink"
+                >
+                  <RotateCcw className="h-3 w-3" aria-hidden="true" />
+                  Replay
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowFull(true)}
+                  className="inline-flex items-center gap-1 rounded-full bg-white px-2 py-1 text-[0.62rem] font-semibold text-cocoa shadow-sm ring-1 ring-ink/[0.06] transition hover:text-ink"
+                >
+                  <Maximize2 className="h-3 w-3" aria-hidden="true" />
+                  Full screen
+                </button>
+              </div>
+            </div>
+            <div className="mb-2 truncate px-1.5 text-[0.65rem] font-medium text-taupe">
+              {template?.name || 'Choose a design'}
             </div>
             <div className="h-[440px] overflow-hidden rounded-2xl bg-white ring-1 ring-ink/[0.05] sm:h-[540px]">
-              <WishStage key={wish.template || 'preview'} wish={wish} autoOpen />
+              <WishStage key={previewKey} wish={wish} autoOpen />
             </div>
           </div>
           <p className="mt-3 text-center text-[0.68rem] leading-relaxed text-taupe">
-            Updates instantly as you write and choose a design. Refreshing starts fresh.
+            Updates instantly as you write. Refreshing starts fresh.
           </p>
         </div>
       </div>
     </div>
   )
 
-  const renderStepFour = () => (
-    <div>
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <p className="label-tiny">Step 4 of 4</p>
-          <h2 className="mt-1 font-display text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
-            One last look before it travels.
-          </h2>
-          <p className="mt-2 max-w-xl text-sm leading-relaxed text-cocoa">
-            This is exactly what they’ll see. Try both screen sizes, replay the reveal, then generate
-            your link.
-          </p>
-        </div>
-        <div className="flex items-center gap-2 self-start">
-          <span className="hidden rounded-full bg-sage/10 px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-sage sm:inline-flex">
-            Nothing sent yet
-          </span>
-        </div>
-      </div>
-
-      <div className="mt-6 grid gap-6 xl:grid-cols-[1.35fr_0.65fr] xl:gap-8">
-        <div>
-          <div className="flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-ink/[0.07] bg-cream/70 p-2">
-            <div className="flex items-center gap-1 rounded-full border border-ink/10 bg-white p-1">
-              <button
-                type="button"
-                onClick={() => setDevice('mobile')}
-                aria-pressed={device === 'mobile'}
-                className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[0.68rem] font-semibold transition ${
-                  device === 'mobile' ? 'bg-ink text-cream' : 'text-cocoa hover:text-ink'
-                }`}
-              >
-                <Smartphone className="h-3.5 w-3.5" aria-hidden="true" />
-                Mobile
-              </button>
-              <button
-                type="button"
-                onClick={() => setDevice('desktop')}
-                aria-pressed={device === 'desktop'}
-                className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[0.68rem] font-semibold transition ${
-                  device === 'desktop' ? 'bg-ink text-cream' : 'text-cocoa hover:text-ink'
-                }`}
-              >
-                <Monitor className="h-3.5 w-3.5" aria-hidden="true" />
-                Desktop
-              </button>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-1">
-              <button
-                type="button"
-                onClick={() => setReplayKey((key) => key + 1)}
-                className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-[0.66rem] font-semibold text-cocoa transition hover:bg-white hover:text-ink"
-              >
-                <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
-                Replay
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setIntroMode((value) => !value)
-                  setReplayKey((key) => key + 1)
-                }}
-                aria-pressed={introMode}
-                className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-[0.66rem] font-semibold transition ${
-                  introMode ? 'bg-coral/10 text-coral-deep' : 'text-cocoa hover:bg-white hover:text-ink'
-                }`}
-              >
-                <Play className="h-3.5 w-3.5" aria-hidden="true" />
-                Opening
-              </button>
-              <button
-                type="button"
-                onClick={() => setShowFull(true)}
-                className="inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1.5 text-[0.66rem] font-semibold text-cocoa shadow-sm ring-1 ring-ink/[0.06] transition hover:text-ink"
-              >
-                <Maximize2 className="h-3.5 w-3.5" aria-hidden="true" />
-                Full screen
-              </button>
-            </div>
-          </div>
-
-          <div className="mt-4">
-            {device === 'mobile' ? (
-              <div className="mx-auto w-full max-w-[360px]">
-                <div className="rounded-[2.7rem] border-[9px] border-[#211A16] bg-[#211A16] shadow-lift">
-                  <div className="relative h-[520px] overflow-hidden rounded-[2.05rem] bg-[#0E0B09] sm:h-[580px]">
-                    <span
-                      aria-hidden="true"
-                      className="absolute left-1/2 top-2 z-30 h-1.5 w-14 -translate-x-1/2 rounded-full bg-white/15"
-                    />
-                    <WishStage key={previewKey} wish={wish} autoOpen={!introMode} />
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="overflow-hidden rounded-2xl border border-ink/15 bg-[#211A16] p-2 shadow-lift">
-                <div className="flex items-center gap-1.5 px-2 pb-2 pt-1">
-                  <span className="h-2 w-2 rounded-full bg-[#F26B5E]" />
-                  <span className="h-2 w-2 rounded-full bg-[#F2C14E]" />
-                  <span className="h-2 w-2 rounded-full bg-[#7BC47F]" />
-                  <span className="ml-3 flex-1 truncate rounded-md bg-white/10 px-2 py-1 text-[0.55rem] text-white/45">
-                    wishify.app/wish/#your-wish
-                  </span>
-                </div>
-                <div className="h-[520px] overflow-hidden rounded-xl bg-white">
-                  <WishStage key={previewKey} wish={wish} autoOpen={!introMode} />
-                </div>
-              </div>
-            )}
-          </div>
-
-          <p className="mt-3 text-center text-[0.68rem] leading-relaxed text-taupe">
-            {introMode
-              ? 'The sealed opening is showing. Click “Open Your Surprise” inside the preview to reveal the card.'
-              : 'This is the recipient’s view. Use “Opening” to preview the reveal animation.'}
-          </p>
-        </div>
-
-        <aside className="space-y-3.5">
-          <div className="rounded-2xl border border-ink/[0.07] bg-cream/70 p-5">
-            <p className="label-tiny">Final check</p>
-            <div className="mt-3 flex items-start gap-3">
-              <div className="w-12 shrink-0 overflow-hidden rounded-lg ring-1 ring-ink/10">
-                <TemplateThumb
-                  template={template}
-                  name={wish.recipient || 'Someone Special'}
-                  heading={wish.heading || occasion?.heading}
-                />
-              </div>
-              <div className="min-w-0">
-                <p className="truncate text-sm font-semibold text-ink">{template?.name || 'No design yet'}</p>
-                <p className="mt-0.5 text-[0.7rem] text-taupe">
-                  {occasion ? `${occasionGroup?.label || occasion.label} · ${occasion.label}` : 'Occasion needed'}
-                </p>
-              </div>
-            </div>
-
-            <dl className="mt-4 space-y-2.5 border-t border-ink/[0.07] pt-4 text-[0.78rem]">
-              <div className="flex justify-between gap-3">
-                <dt className="text-taupe">To</dt>
-                <dd className="max-w-[65%] truncate text-right font-medium text-ink">
-                  {wish.recipient || '—'}
-                </dd>
-              </div>
-              <div className="flex justify-between gap-3">
-                <dt className="text-taupe">From</dt>
-                <dd className="max-w-[65%] truncate text-right font-medium text-ink">
-                  {wish.sender || 'Not shown'}
-                </dd>
-              </div>
-              <div className="flex justify-between gap-3">
-                <dt className="text-taupe">Animation</dt>
-                <dd className="text-right font-medium capitalize text-ink">{wish.animation}</dd>
-              </div>
-              <div className="flex justify-between gap-3">
-                <dt className="text-taupe">Message</dt>
-                <dd className="text-right font-medium text-ink">{wish.message.length} characters</dd>
-              </div>
-            </dl>
-
-            <p className="mt-4 line-clamp-4 rounded-xl bg-white/70 px-3 py-2.5 font-display text-[0.78rem] italic leading-relaxed text-cocoa">
-              “{wish.message || 'Your message will appear here.'}”
-            </p>
-
-            <button
-              type="button"
-              onClick={() => setStep(3)}
-              className="mt-4 inline-flex items-center gap-1.5 text-[0.72rem] font-semibold text-cocoa underline-offset-4 hover:text-ink hover:underline"
-            >
-              <PencilLine className="h-3.5 w-3.5" aria-hidden="true" />
-              Edit details
-            </button>
-          </div>
-
-          <div className="rounded-2xl border border-ink/[0.07] bg-white p-5">
-            <p className="flex items-center gap-2 text-sm font-semibold text-ink">
-              <Lock className="h-4 w-4 text-sage" aria-hidden="true" />
-              Before you generate
-            </p>
-            <ul className="mt-2.5 space-y-1.5 text-[0.72rem] leading-relaxed text-cocoa">
-              <li>• Anyone with the link can open this wish.</li>
-              <li>• It isn’t stored on a server, and can’t be edited or revoked.</li>
-              <li>• Keep the message short enough for chat apps.</li>
-            </ul>
-            <div className="mt-4 flex items-center gap-1.5 rounded-xl bg-sage/10 px-3 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-sage">
-              <Check className="h-3.5 w-3.5" aria-hidden="true" />
-              Ready when you are
-            </div>
-          </div>
-
-          <p className="px-1 text-center text-[0.65rem] leading-relaxed text-taupe">
-            Nothing leaves your browser until you choose to share the generated link.
-          </p>
-        </aside>
-      </div>
-    </div>
-  )
-
-  const nextLabel =
-    step === 1 ? 'Choose a design' : step === 2 ? 'Write the words' : step === 3 ? 'Preview the wish' : 'Generate'
+  const nextLabel = step === 1 ? 'Choose a design' : 'Write the words'
 
   return (
     <>
@@ -1173,7 +979,7 @@ export default function Create() {
                 Create a wish
               </p>
               <h1
-                className={`mt-3 max-w-2xl font-display text-[2.3rem] font-semibold leading-[1.08] tracking-[-0.025em] text-ink sm:text-5xl ${
+                className={`mt-3 max-w-2xl font-elegant text-[2.3rem] font-medium leading-[1.08] tracking-[-0.01em] text-ink sm:text-5xl ${
                   step > 1 ? 'hidden sm:block' : ''
                 }`}
               >
@@ -1207,7 +1013,7 @@ export default function Create() {
           </div>
 
           <div className="mt-4 sm:mt-8">
-            <Stepper current={generated ? 4 : step} maxStep={generated ? 4 : maxStep} onSelect={goToStep} />
+            <Stepper current={generated ? 3 : step} maxStep={generated ? 3 : maxStep} onSelect={goToStep} />
           </div>
         </div>
       </section>
@@ -1236,10 +1042,8 @@ export default function Create() {
                 renderStepOne()
               ) : step === 2 ? (
                 renderStepTwo()
-              ) : step === 3 ? (
-                renderStepThree()
               ) : (
-                renderStepFour()
+                renderStepThree()
               )}
             </motion.div>
           </AnimatePresence>
@@ -1249,14 +1053,14 @@ export default function Create() {
           <div className="sticky bottom-3 z-30 mt-4 flex items-center justify-between gap-3 rounded-2xl border border-ink/10 bg-paper/95 p-2.5 shadow-lift backdrop-blur-md sm:px-4">
             <div className="hidden items-center gap-2 pl-2 text-[0.7rem] text-taupe sm:flex">
               <Lock className="h-3.5 w-3.5 text-sage" aria-hidden="true" />
-              Step {step} of 4
+              Step {step} of 3
             </div>
             <div className="flex flex-1 items-center justify-between gap-2 sm:flex-none">
               <Button variant="ghost" size="md" onClick={handleBack} disabled={step === 1}>
                 <ChevronLeft className="h-4 w-4" aria-hidden="true" />
                 Back
               </Button>
-              {step < 4 ? (
+              {step < 3 ? (
                 <Button variant="primary" size="md" onClick={handleNext}>
                   {nextLabel}
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -1264,7 +1068,7 @@ export default function Create() {
               ) : (
                 <Button variant="coral" size="md" onClick={handleGenerate}>
                   <Sparkles className="h-4 w-4" aria-hidden="true" />
-                  Generate Shareable Link
+                  Create my link
                 </Button>
               )}
             </div>
@@ -1282,7 +1086,7 @@ export default function Create() {
         className="max-w-[1100px] bg-[#0E0B09]"
       >
         <div className="h-[min(88svh,900px)] w-full overflow-hidden rounded-3xl">
-          <WishStage key={`full-${previewKey}`} wish={wish} autoOpen={!introMode} />
+          <WishStage key={`full-${previewKey}`} wish={wish} autoOpen />
         </div>
       </Modal>
 
@@ -1291,7 +1095,7 @@ export default function Create() {
           <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-cream text-coral">
             <RotateCcw className="h-6 w-6" aria-hidden="true" />
           </span>
-          <h2 className="mt-5 font-display text-2xl font-semibold tracking-tight text-ink">
+          <h2 className="mt-5 font-elegant text-2xl font-medium tracking-tight text-ink">
             Start with a clean page?
           </h2>
           <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-cocoa">

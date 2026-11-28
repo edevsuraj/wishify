@@ -3,14 +3,13 @@ import { Check } from 'lucide-react'
 const STEPS = [
   { number: 1, label: 'Occasion', short: 'Occasion' },
   { number: 2, label: 'Design', short: 'Design' },
-  { number: 3, label: 'Personalize', short: 'Words' },
-  { number: 4, label: 'Preview & send', short: 'Send' },
+  { number: 3, label: 'Words & send', short: 'Send' },
 ]
 
-export default function Stepper({ current, maxStep = 4, onSelect }) {
+export default function Stepper({ current, maxStep = 3, onSelect }) {
   return (
     <nav aria-label="Wish creation progress">
-      <ol className="grid grid-cols-4 gap-1.5 sm:gap-3">
+      <ol className="grid grid-cols-3 gap-1.5 sm:gap-3">
         {STEPS.map((step) => {
           const complete = current > step.number
           const active = current === step.number

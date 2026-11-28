@@ -95,7 +95,7 @@ The wish page never places an ad over the greeting itself.
 The greeting is packed into the URL fragment in a readable form:
 
 ```text
-https://your-domain.example/wish/#v=1&occasion=birthday&template=soft-pastel&to=Sheru&message=...
+https://wishify-ten.vercel.app/wish/#v=1&occasion=birthday&template=soft-pastel&to=Sheru&message=...
 ```
 
 Spaces appear as `+`, punctuation may be percent-escaped, and Hindi/non-Latin text uses UTF-8 percent escapes — this is required for a valid link that survives WhatsApp, QR codes, and browsers. The old Base64URL links are still decoded, so previously shared wishes keep working.
@@ -161,11 +161,12 @@ public/
 - **Templates:** edit `src/templates/` and the metadata/matching rules in `src/lib/templates.js`.
 - **Colour and type:** see `tailwind.config.js` and `src/index.css`.
 - **Brand and contact:** update `src/lib/site.js`. The contact email is currently a placeholder (`hello@wishify.app`) — replace it before launch.
+- **Site URL:** set `SITE.url` in `src/lib/site.js`. Shared wish links and the example URL shown in the UI use it (local development still uses `localhost`).
 
 ## Pre-launch checklist
 
 - [ ] Replace the placeholder contact email in `src/lib/site.js`.
-- [ ] Replace example domain references in metadata if you use a custom domain.
+- [ ] Update `SITE.url` in `src/lib/site.js` if you use a custom domain.
 - [ ] Re-check photo licences and attributions for your jurisdiction.
 - [ ] Run `npm run build` and test one generated wish end-to-end on a phone.
 - [ ] Test a malformed/oversized wish link and confirm the error state is friendly.
